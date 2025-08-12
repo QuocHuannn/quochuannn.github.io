@@ -1,0 +1,71 @@
+/* Simple theme transition styles */
+.theme-switching {
+  transition: 
+    background-color 200ms ease-out,
+    color 200ms ease-out,
+    border-color 200ms ease-out,
+    box-shadow 200ms ease-out,
+    backdrop-filter 200ms ease-out,
+    transform 200ms ease-out;
+}
+
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: 
+    background-color 200ms ease-out,
+    color 200ms ease-out,
+    border-color 200ms ease-out,
+    box-shadow 200ms ease-out,
+    fill 200ms ease-out,
+    stroke 200ms ease-out;
+}
+
+/* Disable transitions for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .theme-switching,
+  .theme-switching *,
+  .theme-switching *::before,
+  .theme-switching *::after {
+    transition: none !important;
+  }
+}
+
+/* Optimize for performance */
+.theme-switching {
+  will-change: background-color, color;
+}
+
+.theme-switching * {
+  will-change: auto;
+}
+
+/* Section transition optimizations */
+.section-background {
+  transition: 
+    background 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    backdrop-filter 300ms ease-out;
+  will-change: background;
+}
+
+/* Geometric elements smooth transitions */
+.geometric-element {
+  transition: 
+    transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 300ms ease-out;
+  will-change: transform, opacity;
+}
+
+/* Intersection observer optimizations */
+.section-enter {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 
+    opacity 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}

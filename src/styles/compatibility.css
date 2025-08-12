@@ -1,0 +1,201 @@
+/* Cross-browser compatibility fixes */
+
+/* Safari-specific fixes */
+@supports (-webkit-appearance: none) {
+  /* Fix for Safari backdrop-filter */
+  .glass-effect {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Safari smooth scrolling */
+  html {
+    -webkit-scroll-behavior: smooth;
+    scroll-behavior: smooth;
+  }
+  
+  /* Safari transform fixes */
+  .smooth-transform {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* Firefox-specific fixes */
+@-moz-document url-prefix() {
+  /* Firefox scrollbar styling */
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+  
+  /* Firefox backdrop-filter fallback */
+  .glass-effect {
+    background: var(--color-bg-glass, rgba(255, 255, 255, 0.9));
+  }
+  
+  /* Firefox focus outline */
+  button:focus,
+  a:focus,
+  input:focus,
+  textarea:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+/* Edge/IE compatibility */
+@supports not (backdrop-filter: blur(10px)) {
+  .glass-effect {
+    background: var(--color-bg-glass, rgba(255, 255, 255, 0.95));
+    border: 1px solid var(--color-border-glass, rgba(255, 255, 255, 0.2));
+  }
+}
+
+/* Mobile Safari fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Fix for iOS viewport units */
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+  
+  /* iOS touch optimization */
+  button,
+  a,
+  [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* iOS input styling */
+  input,
+  textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+  
+  /* iOS momentum scrolling */
+  .overflow-auto,
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass-effect {
+    background: var(--color-bg-primary, white);
+    border: 2px solid var(--color-text-primary, black);
+  }
+  
+  .gradient-text {
+    background: none;
+    color: black;
+  }
+  
+  .btn-primary {
+    background: var(--color-text-primary, black);
+    color: var(--color-bg-primary, white);
+    border: 2px solid var(--color-text-primary, black);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .parallax-container {
+    transform: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .glass-effect {
+    background: var(--color-bg-primary, white);
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .gradient-text {
+    background: none;
+    color: black;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    background: var(--color-bg-primary, white);
+    color: var(--color-text-primary, black);
+    border: 1px solid var(--color-text-primary, black);
+  }
+  
+  /* Hide interactive elements */
+  .theme-switcher,
+  .smooth-scroll-nav,
+  .offline-indicator {
+    display: none !important;
+  }
+}
+
+/* Dark mode compatibility - Variables now handled by themes.css */
+@media (prefers-color-scheme: dark) {
+  /* Legacy fallbacks for browsers without CSS custom properties support */
+  @supports not (--css: variables) {
+    body {
+      background-color: #111827;
+      color: #ffffff;
+    }
+  }
+}
+
+/* Focus management for keyboard navigation */
+.focus-visible:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Ensure proper stacking context */
+.glass-effect,
+.modal,
+.dropdown {
+  isolation: isolate;
+}
+
+/* Fix for older browsers without CSS Grid support */
+@supports not (display: grid) {
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .grid > * {
+    flex: 1 1 300px;
+    margin: 0.5rem;
+  }
+}
+
+/* Fix for browsers without CSS custom properties */
+@supports not (--css: variables) {
+  .accent-blue {
+    color: #3b82f6;
+  }
+  
+  .bg-accent-blue {
+    background-color: #3b82f6;
+  }
+  
+  .gradient-text {
+    color: #3b82f6;
+  }
+}

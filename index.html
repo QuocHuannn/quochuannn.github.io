@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Meta Tags -->
+    <title>Huân Portfolio - Full Stack Developer & 3D Web Specialist</title>
+    <meta name="description" content="Portfolio của Huân - Full Stack Developer chuyên về React, Node.js, và 3D web experiences. Khám phá các dự án sáng tạo với Three.js và React Three Fiber." />
+    <meta name="keywords" content="portfolio, full stack developer, react, nodejs, threejs, 3d web, frontend, backend, javascript, typescript" />
+    <meta name="author" content="Huân" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://huan-portfolio.vercel.app/" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Huân Portfolio - Full Stack Developer & 3D Web Specialist" />
+    <meta property="og:description" content="Portfolio của Huân - Full Stack Developer chuyên về React, Node.js, và 3D web experiences. Khám phá các dự án sáng tạo với Three.js và React Three Fiber." />
+    <meta property="og:url" content="https://huan-portfolio.vercel.app/" />
+    <meta property="og:site_name" content="Huân Portfolio" />
+    <meta property="og:image" content="https://huan-portfolio.vercel.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Huân Portfolio - Full Stack Developer" />
+    <meta property="og:locale" content="vi_VN" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Huân Portfolio - Full Stack Developer & 3D Web Specialist" />
+    <meta name="twitter:description" content="Portfolio của Huân - Full Stack Developer chuyên về React, Node.js, và 3D web experiences." />
+    <meta name="twitter:image" content="https://huan-portfolio.vercel.app/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Huân Portfolio - Full Stack Developer" />
+    <meta name="twitter:creator" content="@huan_dev" />
+    
+    <!-- Additional SEO Tags -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Theme Detection Script - Prevent FOUC -->
+    <script>
+      (function(){try{var t=localStorage.getItem('theme'),a=t==='light'||t==='dark'?t:'light',d=document.documentElement,m=document.querySelector('meta[name="theme-color"]');d.setAttribute('data-theme',a);d.classList.add(a);m&&(m.content=a==='dark'?'#0f172a':'#ffffff')}catch(e){document.documentElement.setAttribute('data-theme','light');document.documentElement.classList.add('light')}})();
+    </script>
+    <script type="module">
+      if (import.meta.hot?.on) {
+        import.meta.hot.on('vite:error', (error) => {
+          if (error.err) {
+            console.error([error.err.message, error.err.frame].filter(Boolean).join('\n'));
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
