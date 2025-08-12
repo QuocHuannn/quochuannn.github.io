@@ -10,6 +10,7 @@ export default defineConfig(({ command, mode }) => {
   const isAnalyze = mode === 'analyze';
   
   return {
+    base: '/',
     define: {
       __DEV__: isDev,
       __PROD__: isProd
