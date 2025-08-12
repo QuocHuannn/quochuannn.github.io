@@ -1,144 +1,123 @@
-# Portfolio Website - Trương Quốc Huân
+<div align="center">
 
-A modern, interactive portfolio website built with React, TypeScript, and Three.js featuring cream white theme and dynamic 3D effects. Showcasing fullstack development skills and modern web technologies.
+# 🌟 Portfolio Website - Trương Quốc Huân
+
+### Modern Interactive Portfolio with 3D Effects & Cream Aesthetic
+
+[![React](https://img.shields.io/badge/React-18.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Three.js](https://img.shields.io/badge/Three.js-Latest-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-F2E1C3?style=for-the-badge)](https://your-portfolio-url.com)
+[![GitHub](https://img.shields.io/badge/📂_Source_Code-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/QuocHuannn/MyPortfolio)
+
+---
+
+*A modern fullstack portfolio showcasing web development skills with interactive 3D elements and cream-themed design.*
+
+</div>
+
+## ✨ Features
+
+- 🌟 **Interactive 3D Elements** - Dynamic scenes with Three.js
+- 🎨 **Smooth Animations** - Framer Motion powered transitions
+- 📱 **Fully Responsive** - Works on all devices
+- 🍦 **Cream Theme Design** - Distinctive color palette
+- ⚡ **Fast Performance** - Vite build system with code splitting
+- 🔧 **TypeScript** - Full type safety
 
 ## 🚀 Tech Stack
 
-### Frontend
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling with custom cream theme
-- **Framer Motion** for smooth animations
-- **Three.js** with React Three Fiber for 3D graphics
-- **React Hook Form** for form handling
+<div align="center">
 
-### Backend
-- **Node.js** with Express.js
-- **TypeScript** for type safety
-- **Nodemon** for development
+| Technology | Purpose | 
+|------------|---------|  
+| ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white) **React 18** | UI Framework |
+| ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) **TypeScript** | Type Safety |
+| ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white) **Vite** | Build Tool |
+| ![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat&logo=three.js&logoColor=white) **Three.js** | 3D Graphics |
+| ![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=flat&logo=tailwind-css&logoColor=white) **Tailwind CSS** | Styling |
+| ![Framer](https://img.shields.io/badge/Framer_Motion-0055FF?style=flat&logo=framer&logoColor=white) **Framer Motion** | Animations |
 
-### Development Tools
-- **ESLint** for code linting
-- **PostCSS** with Autoprefixer
-- **Git** for version control
+</div>
 
 ## 🎨 Design System
 
 ### Color Palette
-- **Cream Base**: `#F2E1C3` (Primary cream white)
-- **Dynamic Accents**: Blue, Purple, Teal, Orange, Pink, Green
-- **Neutral Grays**: For text and backgrounds
+- 🍦 **Cream Base** `#F2E1C3` - Primary background
+- 🔵 **Ocean Blue** `#3B82F6` - Interactive elements  
+- 🟣 **Royal Purple** `#8B5CF6` - Accent highlights
+- 🟢 **Emerald Teal** `#10B981` - Success states
 
 ### Typography
-- **Display Font**: Poppins (headings)
-- **Body Font**: Inter (body text)
-- **Responsive scaling**: Mobile-first approach
+- **Headings**: `Poppins` - Modern geometric sans-serif
+- **Body**: `Inter` - Highly legible for text and UI
 
 ## 📁 Project Structure
 
 ```
-src/
-├── components/
-│   ├── sections/          # Page sections (Hero, About, Skills, etc.)
-│   ├── ui/               # Reusable UI components
-│   ├── three/            # 3D components and scenes
-│   └── Layout.tsx        # Main layout with navigation
-├── data/                 # Mock data and content
-├── hooks/                # Custom React hooks
-├── styles/               # Additional styles
-├── types/                # TypeScript type definitions
-├── utils/                # Utility functions
-└── App.tsx              # Main application component
+📦 Portfolio/
+├── 📁 src/
+│   ├── 📁 components/       # React components
+│   ├── 📁 data/            # Content and mock data
+│   ├── 📁 hooks/           # Custom React hooks
+│   ├── 📁 types/           # TypeScript definitions
+│   └── 📄 App.tsx         # Main app component
+├── 📁 api/                 # Backend API routes
+├── 📁 public/              # Static assets
+└── ⚙️ Config files         # Vite, TypeScript, Tailwind
 ```
 
-## 🛠️ Development Setup
+## ⚡ Quick Start
 
 ### Prerequisites
-- Node.js 18+ installed
-- npm or pnpm package manager
+- Node.js 18.0+
+- npm 8.0+
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd portfolio-website
-   ```
+```bash
+# Clone repository
+git clone https://github.com/QuocHuannn/MyPortfolio.git
+cd MyPortfolio
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+# Install dependencies
+npm install
 
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
+# Start development server
+npm run dev
 
-4. **Access the application**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:3001
+# Open http://localhost:5173
+```
 
 ### Available Scripts
-
-- `npm run dev` - Start development servers (frontend + backend)
+- `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-## 📱 Features
-
-### Phase 1 (Current) ✅
-- [x] Project setup with Vite + React + TypeScript
-- [x] Tailwind CSS with custom cream theme
-- [x] Responsive navigation with smooth scrolling
-- [x] Six main sections: Hero, About, Skills, Experience, Projects, Contact
-- [x] Framer Motion animations
-- [x] Basic 3D scene setup with Three.js
-- [x] Contact form with validation
-- [x] TypeScript types and utilities
-- [x] Clean project structure
-
-### Phase 2 (Next)
-- [ ] Enhanced 3D scenes and interactions
-- [ ] Real CV data integration
-- [ ] EmailJS contact form integration
-- [ ] Advanced animations and micro-interactions
-- [ ] Performance optimizations
-- [ ] SEO and accessibility improvements
-
-## 🎯 Implementation Plan
-
-This project follows a 6-phase implementation plan:
-
-1. **Phase 1**: Basic setup and structure ✅
-2. **Phase 2**: 3D integration and CV data
-3. **Phase 3**: Advanced animations and interactions
-4. **Phase 4**: Performance optimization
-5. **Phase 5**: Testing and QA
-6. **Phase 6**: Deployment and final polish
-
-## 🔧 Configuration
-
-### Tailwind CSS
-Custom theme configuration with cream color palette and animations in `tailwind.config.js`.
-
-### TypeScript
-Strict TypeScript configuration for better code quality and developer experience.
-
-### Vite
-Optimized build configuration with proper asset handling and development server setup.
+- `npm run check` - Type check + lint
 
 ## 📄 License
 
-This project is for portfolio purposes. All rights reserved.
+MIT License - Feel free to use this code for your own portfolio projects!
 
-## 👨‍💻 Developer
+## 👨‍💻 Contact
 
-**Trương Quốc Huân** - Fullstack Developer
-- Phone: 0335597676
-- Location: Ho Chi Minh City, Vietnam
+<div align="center">
+
+### 🌟 **Trương Quốc Huân**
+*Fullstack Developer*
+
+[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Site-F2E1C3?style=for-the-badge)](https://your-portfolio-url.com)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/QuocHuannn)
+[![Email](https://img.shields.io/badge/Email-Contact-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-email@gmail.com)
+
+📱 **Phone**: 0335597676  
+📍 **Location**: Ho Chi Minh City, Vietnam
 
 ---
 
-*Built with ❤️ using modern web technologies*
+**⭐ If you found this project helpful, please give it a star! ⭐**
+
+</div>
