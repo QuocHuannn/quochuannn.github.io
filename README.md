@@ -10,7 +10,7 @@
 [![Three.js](https://img.shields.io/badge/Three.js-Latest-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-F2E1C3?style=for-the-badge)](https://your-portfolio-url.com)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-F2E1C3?style=for-the-badge)](https://quochuannn.github.io/)
 [![GitHub](https://img.shields.io/badge/📂_Source_Code-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/QuocHuannn/MyPortfolio)
 
 ---
@@ -109,7 +109,7 @@ MIT License - Feel free to use this code for your own portfolio projects!
 ### 🌟 **Trương Quốc Huân**
 *Fullstack Developer*
 
-[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Site-F2E1C3?style=for-the-badge)](https://your-portfolio-url.com)
+[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Site-F2E1C3?style=for-the-badge)](https://quochuannn.github.io/)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/QuocHuannn)
 [![Email](https://img.shields.io/badge/Email-Contact-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-email@gmail.com)
 
