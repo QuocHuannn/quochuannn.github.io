@@ -23,7 +23,7 @@
     "postbuild": "echo \"Build completed successfully!\""
   },
   "dependencies": {
-    "@react-three/drei": "^10.6.1",
+    "@react-three/drei": "^9.121.3",
     "@react-three/fiber": "^9.3.0",
     "clsx": "^2.1.1",
     "cors": "^2.8.5",
