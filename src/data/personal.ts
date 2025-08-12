@@ -19,5 +19,5 @@ export const personalInfo: PersonalInfo = {
   linkedin: "https://linkedin.com/in/truong-quoc-huan",
   phone: "+84 335 597 676",
   location: "Ho Chi Minh City, Viet Nam",
-  avatar: "/images/ava-dlat.JPG"
+  avatar: "/images/avatar-new.jpg"
 };
