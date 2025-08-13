@@ -29,15 +29,17 @@ export default defineConfig(({ command, mode }) => {
       ] : [])
     ],
    
-    // Build optimizations
+    // Build optimizations - simplified to avoid initialization issues
     build: {
       target: 'es2020',
-      minify: 'terser',
+      minify: 'esbuild', // Changed from terser to esbuild for better compatibility
       sourcemap: isDev,
       rollupOptions: {
+        treeshake: false, // Disable tree shaking to prevent initialization issues
         output: {
+          // Simplified chunk splitting to avoid circular dependencies
           manualChunks: (id) => {
-            // Vendor chunks
+            // Only split vendor chunks to avoid complex dependencies
             if (id.includes('node_modules')) {
               if (id.includes('react') || id.includes('react-dom')) {
                 return 'react-vendor';
@@ -48,48 +50,10 @@ export default defineConfig(({ command, mode }) => {
               if (id.includes('three') || id.includes('@react-three')) {
                 return 'three';
               }
-              if (id.includes('lucide-react')) {
-                return 'icons';
-              }
-              if (id.includes('react-router')) {
-                return 'router';
-              }
-              // Other vendor libraries
               return 'vendor';
             }
-            
-            // Theme-specific chunks for better code splitting
-            if (id.includes('/theme/') || id.includes('/hooks/useTheme') || id.includes('/hooks/useThemeSelectors')) {
-              if (id.includes('ThemeProvider') || id.includes('useTheme.') || id.includes('useThemeClassName')) {
-                return 'theme-core'; // Critical theme functionality
-              }
-              if (id.includes('ThemeToggle') || id.includes('ThemeAware') || id.includes('ThemePerformance')) {
-                return 'theme-components'; // Theme UI components
-              }
-              if (id.includes('themeUtils') || id.includes('themeBundleOptimizer') || id.includes('themeChunkSplitter')) {
-                return 'theme-utils'; // Theme utilities
-              }
-              if (id.includes('LazyTheme') || id.includes('useThemeSelectors')) {
-                return 'theme-advanced'; // Advanced theme features
-              }
-              return 'theme-misc'; // Other theme-related code
-            }
-            
-            // Component chunks
-            if (id.includes('/components/sections/')) {
-              return 'sections';
-            }
-            if (id.includes('/components/ui/')) {
-              return 'ui';
-            }
-            if (id.includes('/utils/') && !id.includes('theme')) {
-              return 'utils';
-            }
-            
-            // Hook chunks (non-theme)
-            if (id.includes('/hooks/') && !id.includes('theme')) {
-              return 'hooks';
-            }
+            // Keep all app code in main chunk to avoid initialization issues
+            return undefined;
           },
           assetFileNames: (assetInfo) => {
             const info = assetInfo.name?.split('.') ?? [];
@@ -106,22 +70,9 @@ export default defineConfig(({ command, mode }) => {
           entryFileNames: 'assets/js/[name]-[hash].js'
         }
       },
-      terserOptions: {
-        compress: {
-          drop_console: isProd,
-          drop_debugger: isProd,
-          pure_funcs: isProd ? ['console.log', 'console.info'] : [],
-          passes: 2
-        },
-        mangle: {
-          safari10: true
-        },
-        format: {
-          comments: false
-        }
-      },
-      chunkSizeWarningLimit: 500,
-      cssCodeSplit: true,
+      // Removed terser options since we're using esbuild now
+      chunkSizeWarningLimit: 1000,
+      cssCodeSplit: false, // Disable CSS code splitting to avoid issues
       reportCompressedSize: false,
       assetsInlineLimit: 4096
     },
