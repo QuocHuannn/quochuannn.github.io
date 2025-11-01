@@ -1,271 +1,184 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { skills, skillCategories } from '../../data/skills';
-import { getSkillsByCategory, getSkillLevelColor, getSkillLevelText } from '../../utils/skillUtils';
+import { getSkillsByCategory } from '../../utils/skillUtils';
 import { getThemeAwareMotionProps } from '../../utils/motionConfig';
 import Container from '../ui/Container';
 import Card from '../ui/Card';
 
 const SkillsSection: React.FC = () => {
-  const backgroundStyles = {
-    background: `
-      linear-gradient(135deg, 
-        var(--color-background) 0%, 
-        var(--color-surface) 25%, 
-        var(--color-surface-secondary) 50%, 
-        var(--color-surface) 75%, 
-        var(--color-background) 100%
-      ),
-      radial-gradient(circle at 20% 80%, var(--color-surface-glass) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, var(--color-primary-alpha) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, var(--color-secondary-alpha) 0%, transparent 50%)
-    `
-  };
-
   return (
-    <section id="skills" className="py-20 md:py-32 relative overflow-hidden" style={backgroundStyles}>
-      {/* Background Decorative Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Geometric Shapes */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/3 right-1/3 w-28 h-28 bg-gradient-to-br from-violet-500/10 to-indigo-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: '0.5s' }} />
-        
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]" style={{
-          backgroundImage: `
-            linear-gradient(var(--color-text-primary) 1px, transparent 1px),
-            linear-gradient(90deg, var(--color-text-primary) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px'
-        }} />
-        
-        {/* Floating Elements */}
-        <div className="absolute top-1/4 left-1/2 w-2 h-2 bg-blue-400 rounded-full animate-ping" style={{ animationDelay: '3s' }} />
-        <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-emerald-400 rounded-full animate-ping" style={{ animationDelay: '4s' }} />
-        <div className="absolute top-3/4 right-1/4 w-1.5 h-1.5 bg-purple-400 rounded-full animate-ping" style={{ animationDelay: '2.5s' }} />
-      </div>
-      
+    <section 
+      id="skills" 
+      className="py-20 md:py-32 relative overflow-hidden"
+      style={{
+        backgroundColor: 'var(--color-background)'
+      }}
+    >
       <Container size="xl" padding="lg" className="relative z-10">
         {/* Header Section */}
         <motion.div 
           className="text-center mb-12 md:mb-16"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full border mb-6"
-            style={{
-              backgroundColor: 'var(--color-surface-glass)',
-              borderColor: 'var(--color-border-glass)',
-              color: 'var(--color-text-primary)'
-            }}
-          >
-            <span className="text-xl">⚡</span>
-            <span className="font-semibold text-sm md:text-base">Technical Expertise</span>
-          </motion.div>
-          
-          <motion.h2 
-            className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight"
+          <h2 
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight"
             style={{
               backgroundImage: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
             }}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
           >
             Skills & Technologies
-          </motion.h2>
+          </h2>
           
-          <motion.p 
-            className="text-base md:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed"
+          <p 
+            className="text-base md:text-lg max-w-2xl mx-auto"
             style={{ color: 'var(--color-text-secondary)' }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Mastering cutting-edge technologies to build exceptional digital experiences
-          </motion.p>
+            A comprehensive toolkit for building modern, scalable applications
+          </p>
         </motion.div>
         
         {/* Skills Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {skillCategories
             .sort((a, b) => {
-              const order = ['Frontend Development', 'Backend Development', 'Tools & Technologies', 'Database'];
+              const order = ['Frontend Development', 'Backend Development', 'Database', 'Tools & Technologies'];
               return order.indexOf(a.name) - order.indexOf(b.name);
             })
             .map((category, categoryIndex) => {
             const categorySkills = getSkillsByCategory(category.name);
             
-
-            
             return (
               <motion.div
                 key={category.name}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ 
-                  duration: 0.8, 
-                  delay: categoryIndex * 0.15
+                  duration: 0.5, 
+                  delay: categoryIndex * 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94]
                 }}
                 viewport={{ once: true }}
-                className="group"
               >
-                <Card variant="glass" padding="lg" hoverable className="h-full flex flex-col min-h-[380px] md:min-h-[420px]">
+                <Card variant="glass" padding="lg" hoverable className="h-full">
                   {/* Category Header */}
-                  <div className="flex items-center mb-6 flex-shrink-0">
-                    <motion.div 
-                      className={`p-4 bg-gradient-to-br ${
-                        category.color === 'accent-blue' ? 'from-blue-500 via-blue-600 to-indigo-700' : 
-                        category.color === 'accent-green' ? 'from-emerald-500 via-teal-600 to-cyan-700' :
-                        category.color === 'accent-purple' ? 'from-purple-500 via-violet-600 to-indigo-700' :
-                        'from-cyan-500 via-blue-600 to-purple-700'
-                      } text-white rounded-2xl mr-4 shadow-lg ring-2 ring-white/20`}
-                      {...getThemeAwareMotionProps({
-                        whileHover: { rotate: 5, scale: 1.1, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' },
-                        transition: { duration: 0.15, ease: 'easeOut' }
-                      })}
+                  <div className="flex items-center gap-4 mb-6 pb-6 border-b" style={{ borderColor: 'var(--color-border-primary)' }}>
+                    <div 
+                      className="p-3 rounded-xl flex-shrink-0"
+                      style={{
+                        backgroundColor: category.color === 'accent-blue' ? 'var(--color-accent-primary)' :
+                                         category.color === 'accent-green' ? 'var(--color-success)' :
+                                         category.color === 'accent-purple' ? 'var(--color-accent-secondary)' :
+                                         'var(--color-warning)',
+                        color: 'var(--color-text-inverse)'
+                      }}
                     >
-                      <span className="text-2xl drop-shadow-sm">{category.icon}</span>
-                    </motion.div>
-                    <div>
-                      <h3 className="text-2xl font-bold mb-1" style={{ color: 'var(--color-text-primary)' }}>
+                      {category.icon}
+                    </div>
+                    <div className="flex-1">
+                      <h3 
+                        className="text-xl font-bold mb-1"
+                        style={{ color: 'var(--color-text-primary)' }}
+                      >
                         {category.name}
                       </h3>
-                      <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-                        {categorySkills.length} skills
+                      <p 
+                        className="text-sm"
+                        style={{ color: 'var(--color-text-secondary)' }}
+                      >
+                        {categorySkills.length} {categorySkills.length === 1 ? 'skill' : 'skills'}
                       </p>
                     </div>
                   </div>
                   
                   {/* Skills List */}
-                  <div className="flex flex-col gap-3 flex-grow">
+                  <div className="space-y-3">
                     {categorySkills.map((skill, skillIndex) => {
+                      const getLevelColor = () => {
+                        if (skill.level >= 85) return 'from-[var(--color-success)] to-[var(--color-accent-tertiary)]';
+                        if (skill.level >= 75) return 'from-[var(--color-accent-primary)] to-[var(--color-accent-secondary)]';
+                        if (skill.level >= 65) return 'from-[var(--color-warning)] to-[var(--color-error)]';
+                        return 'from-[var(--color-text-tertiary)] to-[var(--color-text-secondary)]';
+                      };
+
                       return (
                         <motion.div
                           key={skill.name}
                           initial={{ opacity: 0, x: -20 }}
                           whileInView={{ opacity: 1, x: 0 }}
-                          whileHover={{ x: 4 }}
                           transition={{ 
-                            duration: 0.4, 
-                            delay: categoryIndex * 0.1 + skillIndex * 0.05
+                            duration: 0.4,
+                            delay: categoryIndex * 0.05 + skillIndex * 0.03
                           }}
                           viewport={{ once: true }}
-                          className="group/skill flex-shrink-0 relative"
+                          className="group"
                         >
-                          <div className="flex items-center justify-between p-4 rounded-xl backdrop-blur-sm border transition-all duration-300 hover:shadow-md group-hover/skill:scale-[1.02]" style={{
-                            backgroundColor: 'var(--color-surface-muted)',
-                            borderColor: 'var(--color-border-muted)'
-                          }}>
-                            <div className="flex items-center gap-3">
-                              {skill.icon && (
-                                <motion.div 
-                                  className="text-xl flex-shrink-0 p-2 rounded-lg transition-all duration-300"
+                          <div 
+                            className="flex items-center gap-4 p-3 rounded-lg transition-all duration-200 group-hover:scale-[1.01]"
+                            style={{
+                              backgroundColor: 'var(--color-surface-secondary)',
+                            }}
+                          >
+                            {/* Skill Icon */}
+                            {skill.icon && (
+                              <div 
+                                className="flex-shrink-0 text-2xl p-2 rounded-lg"
+                                style={{
+                                  backgroundColor: 'var(--color-surface-glass)',
+                                  color: 'var(--color-accent-primary)'
+                                }}
+                              >
+                                {skill.icon}
+                              </div>
+                            )}
+                            
+                            {/* Skill Info */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between gap-3 mb-2">
+                                <span 
+                                  className="font-semibold text-sm truncate"
+                                  style={{ color: 'var(--color-text-primary)' }}
+                                >
+                                  {skill.name}
+                                </span>
+                                <span 
+                                  className="text-xs font-bold px-2 py-0.5 rounded"
                                   style={{
-                                    backgroundColor: 'var(--color-surface-glass)',
-                                    color: 'var(--color-primary)'
+                                    backgroundColor: skill.level >= 85 ? 'var(--color-success)' :
+                                                   skill.level >= 75 ? 'var(--color-accent-primary)' :
+                                                   skill.level >= 65 ? 'var(--color-warning)' :
+                                                   'var(--color-text-tertiary)',
+                                    color: 'var(--color-text-inverse)'
                                   }}
-                                  whileHover={{ scale: 1.1, rotate: 5 }}
                                 >
-                                  {skill.icon}
-                                </motion.div>
-                              )}
-                              <span className="font-semibold text-sm" style={{ color: 'var(--color-text-primary)' }}>
-                                {skill.name}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-3 flex-shrink-0">
+                                  {skill.level}%
+                                </span>
+                              </div>
+                              
                               {/* Progress Bar */}
-                              <div className="flex-1 min-w-[80px]">
-                                <div 
-                                  className="h-2 rounded-full overflow-hidden shadow-inner"
-                                  style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
-                                >
-                                  <motion.div
-                                    className={`h-full bg-gradient-to-r ${
-                                      skill.level >= 85 ? 'from-emerald-500 to-teal-600' :
-                                      skill.level >= 75 ? 'from-[var(--color-accent-primary)] to-[var(--color-accent-secondary)]' :
-                                      skill.level >= 65 ? 'from-[var(--color-warning)] to-[var(--color-error)]' :
-                                      'from-[var(--color-text-tertiary)] to-[var(--color-text-secondary)]'
-                                    } rounded-full relative ${
-                                      skill.level >= 85 ? 'shadow-lg shadow-emerald-500/30' : ''
-                                    }`}
-                                    initial={{ width: 0 }}
-                                    whileInView={{ width: `${skill.level}%` }}
-                                    transition={{ 
-                                      duration: 1.2, 
-                                      delay: categoryIndex * 0.1 + skillIndex * 0.1,
-                                      ease: "easeOut"
-                                    }}
-                                    viewport={{ once: true }}
-                                  >
-                                    {skill.level >= 85 && (
-                                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-                                    )}
-                                  </motion.div>
-                                </div>
-                              </div>
-                              {/* Percentage Badge */}
-                              <div className="text-right">
-                                <motion.div 
-                                  className={`px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r ${
-                                    skill.level >= 85 ? 'from-emerald-500 to-teal-600' :
-                                    skill.level >= 75 ? 'from-blue-500 to-indigo-600' :
-                                    skill.level >= 65 ? 'from-amber-500 to-orange-600' :
-                                    'from-slate-500 to-gray-600'
-                                  } text-white shadow-lg relative overflow-hidden ${
-                                    skill.level >= 85 ? 'shadow-emerald-500/30 ring-2 ring-emerald-400/20' : ''
-                                  }`}
-                                  whileHover={{ scale: 1.05 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  <motion.span
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ 
-                                      duration: 0.5, 
-                                      delay: categoryIndex * 0.1 + skillIndex * 0.1 + 0.8
-                                    }}
-                                    viewport={{ once: true }}
-                                  >
-                                    {skill.level}%
-                                  </motion.span>
-                                  {skill.level >= 85 && (
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
-                                  )}
-                                </motion.div>
-                               </div>
-                            </div>
-                          </div>
-                          
-                          {/* Tooltip */}
-                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300 pointer-events-none z-50 whitespace-nowrap">
-                            <div className="text-center">
-                              <div className="font-semibold">{skill.name}</div>
-                              <div style={{ color: 'var(--color-text-tertiary)' }}>
-                                {skill.level >= 90 ? 'Expert Level' :
-                                 skill.level >= 85 ? 'Advanced' :
-                                 skill.level >= 75 ? 'Proficient' :
-                                 skill.level >= 65 ? 'Intermediate' :
-                                 'Beginner'} - {skill.level}%
+                              <div 
+                                className="h-1.5 rounded-full overflow-hidden"
+                                style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
+                              >
+                                <motion.div
+                                  className={`h-full bg-gradient-to-r ${getLevelColor()} rounded-full`}
+                                  initial={{ width: 0 }}
+                                  whileInView={{ width: `${skill.level}%` }}
+                                  transition={{ 
+                                    duration: 1,
+                                    delay: categoryIndex * 0.05 + skillIndex * 0.03 + 0.2,
+                                    ease: [0.25, 0.46, 0.45, 0.94]
+                                  }}
+                                  viewport={{ once: true }}
+                                />
                               </div>
                             </div>
-                            {/* Tooltip Arrow */}
-                            <div 
-                              className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent"
-                              style={{ borderTopColor: 'var(--color-bg-tertiary)' }}
-                            ></div>
                           </div>
                         </motion.div>
                       );

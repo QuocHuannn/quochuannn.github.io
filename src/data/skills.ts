@@ -7,6 +7,7 @@ import {
   SiCss3,
   SiFramer,
   SiGo,
+  SiPython,
   SiNestjs,
   SiExpress,
   SiNodedotjs,
@@ -86,6 +87,12 @@ export const skills: Skill[] = [
     level: 85,
     category: "backend",
     icon: React.createElement(SiGo)
+  },
+  {
+    name: "Python",
+    level: 80,
+    category: "backend",
+    icon: React.createElement(SiPython)
   },
   {
     name: "Gin Framework",
