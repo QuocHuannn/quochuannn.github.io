@@ -81,6 +81,58 @@
   }
 }
 
+.slide-in-down {
+  animation: slideInDown var(--duration-normal) var(--ease-out-quad) forwards;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+@keyframes slideInDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft var(--duration-normal) var(--ease-out-quad) forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight var(--duration-normal) var(--ease-out-quad) forwards;
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.scale-in {
+  animation: scaleIn var(--duration-normal) var(--ease-out-quad) forwards;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+@keyframes scaleIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* Parallax Base */
 .parallax-element {
   will-change: transform;

@@ -7,6 +7,8 @@ import { generateSrcSet, generateSizes, getOptimalFormat } from '../../utils/ima
 import { useThemeClassName } from '../../hooks/useThemeSelectors';
 import { getThemeStyles, getTransitionStyles } from '../../utils/themeUtils';
 import { getThemeAwareMotionProps } from '../../utils/motionConfig';
+import Container from '../ui/Container';
+import Card, { CardHeader, CardTitle, CardDescription, CardContent } from '../ui/Card';
 
 // Animation variants
 const sectionVariants = {
@@ -39,7 +41,6 @@ const cardVariants = {
   }
 };
 import { Download, MapPin, Calendar, Code, Coffee, Music } from 'lucide-react';
-import ParallaxContainer from '../effects/ParallaxContainer';
 import LazyImage from '../ui/LazyImage';
 
 const AboutSection: React.FC = () => {
@@ -120,40 +121,40 @@ const AboutSection: React.FC = () => {
         }} />
       </motion.div>
       
-      <div className="container mx-auto relative z-10">
-        <ParallaxContainer speed={0.3} direction="up">
-          <motion.div
-            ref={titleRef}
-            variants={itemVariants}
-            initial="hidden"
-            animate={titleInView ? "visible" : "hidden"}
-            className="text-center mb-16"
-          >
-            <h2 id="about-heading" className="gradient-text mb-6">About Me</h2>
-            <p className="max-w-3xl mx-auto" style={{
-              color: 'var(--color-text-secondary)'
-            }}>
-              {personalInfo.bio}
-            </p>
-          </motion.div>
-        </ParallaxContainer>
+      <Container size="xl" padding="lg" className="relative z-10">
+        <motion.div
+          ref={titleRef}
+          variants={itemVariants}
+          initial="hidden"
+          animate={titleInView ? "visible" : "hidden"}
+          className="text-center mb-16"
+        >
+          <h2 id="about-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6" style={{
+            backgroundImage: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>About Me</h2>
+          <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed" style={{
+            color: 'var(--color-text-secondary)'
+          }}>
+            {personalInfo.bio}
+          </p>
+        </motion.div>
         
         <motion.div 
           ref={contentRef}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start"
           variants={sectionVariants}
           initial="hidden"
           animate={contentInView ? "visible" : "hidden"}
         >
-          <ParallaxContainer speed={0.2} direction="up">
-            <motion.div
-              variants={cardVariants}
-            >
-              <div className="glass-effect p-6 md:p-8">
-              <h3 className="text-2xl font-semibold mb-4" style={{
-                color: 'var(--color-primary)'
-              }}>My Story</h3>
-              <p className="leading-relaxed mb-6" style={{
+          <Card variant="glass" padding="lg" hoverable>
+            <CardHeader>
+              <CardTitle className="[color:var(--color-accent-primary)]">My Story</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="leading-relaxed mb-6 text-base" style={{
                 color: 'var(--color-text-secondary)'
               }}>
                 {personalInfo.bio}
@@ -166,7 +167,7 @@ const AboutSection: React.FC = () => {
                   {skills.filter(skill => skill.level >= 80).slice(0, 8).map((skill) => (
                     <span 
                       key={skill.name}
-                      className="px-3 py-1 rounded-full text-sm font-medium"
+                      className="px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
                       style={{
                         backgroundColor: 'var(--color-primary-muted)',
                         color: 'var(--color-primary)'
@@ -180,23 +181,18 @@ const AboutSection: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div>
                   <span style={{ color: 'var(--color-text-muted)' }}>Location:</span>
-                  <p className="font-medium" style={{ color: 'var(--color-text-primary)' }}>{personalInfo.location}</p>
+                  <p className="font-medium mt-1" style={{ color: 'var(--color-text-primary)' }}>{personalInfo.location}</p>
                 </div>
                 <div>
                   <span style={{ color: 'var(--color-text-muted)' }}>Experience:</span>
-                  <p className="font-medium" style={{ color: 'var(--color-text-primary)' }}>1+ Year</p>
+                  <p className="font-medium mt-1" style={{ color: 'var(--color-text-primary)' }}>1+ Year</p>
                 </div>
               </div>
-              </div>
-            </motion.div>
-          </ParallaxContainer>
+            </CardContent>
+          </Card>
           
-          <ParallaxContainer speed={0.4} direction="up">
-            <motion.div
-              variants={cardVariants}
-              className="relative"
-            >
-              <div className="glass-effect p-6 md:p-8 text-center">
+          <Card variant="glass" padding="lg" hoverable className="text-center">
+            <CardContent>
               <div className="relative inline-block mb-6">
                 <motion.div
                   variants={itemVariants}
@@ -239,10 +235,10 @@ const AboutSection: React.FC = () => {
               <h3 className="text-2xl font-bold mb-2" style={{
                 color: 'var(--color-text-primary)'
               }}>{personalInfo.name}</h3>
-              <p className="text-lg font-medium mb-4" style={{
+              <p className="text-lg font-medium mb-6" style={{
                 color: 'var(--color-primary)'
               }}>{personalInfo.title}</p>
-              <div className="flex justify-center space-x-3 sm:space-x-4">
+              <div className="flex justify-center gap-3 sm:gap-4">
                 <motion.a
                   href={`mailto:${personalInfo.email}`}
                   className="p-3 rounded-full transition-all duration-300"
@@ -318,11 +314,10 @@ const AboutSection: React.FC = () => {
                   </svg>
                 </motion.a>
               </div>
-              </div>
-            </motion.div>
-          </ParallaxContainer>
+            </CardContent>
+          </Card>
         </motion.div>
-      </div>
+      </Container>
     </motion.section>
   );
 };

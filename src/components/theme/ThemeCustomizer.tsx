@@ -7,7 +7,7 @@ import { ColorScheme, ThemePreset } from '../../utils/themePresets';
 import { AnimationConfig, AnimationPreferences } from '../../utils/animationPreferences';
 import { setCSSCustomProperties } from '../../utils/themeUtils';
 import Card, { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 
 interface CustomColorPalette {

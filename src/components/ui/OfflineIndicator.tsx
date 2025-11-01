@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WifiOff, Wifi, AlertCircle, CheckCircle } from 'lucide-react';
-import { Button } from './Button';
+import Button from './Button';
 
 interface OfflineIndicatorProps {
   showWhenOnline?: boolean;

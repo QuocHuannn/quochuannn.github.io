@@ -8,7 +8,7 @@ import { Settings, Palette, Download, Upload, RotateCcw } from 'lucide-react';
 import { ThemeCustomizer } from './ThemeCustomizer';
 import { Theme } from '../../hooks/useTheme';
 import Card, { CardContent, CardDescription, CardHeader, CardTitle } from '../ui/Card';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 
 interface ThemeSettingsProps {

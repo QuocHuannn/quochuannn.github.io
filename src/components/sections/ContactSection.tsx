@@ -3,12 +3,13 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, ExternalLink, CheckCircle, AlertCircle } from 'lucide-react';
 import { useScrollAnimation } from '../../hooks/useScrollAnimation';
-import ParallaxContainer from '../effects/ParallaxContainer';
 import { toast } from 'sonner';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
 import { getThemeAwareMotionProps } from '../../utils/motionConfig';
+import Container from '../ui/Container';
+import Card from '../ui/Card';
 
 interface ContactFormData {
   name: string;
@@ -186,30 +187,28 @@ const ContactSection: React.FC = () => {
         <div className="absolute top-1/6 right-1/6 w-1 h-1 bg-pink-400 rounded-full animate-ping" style={{ animationDelay: '3.5s' }} />
       </div>
       
-      <div className="container mx-auto relative z-10">
-        <ParallaxContainer speed={0.4} direction="up">
-          <motion.div
-            ref={titleRef}
-            className="text-center mb-16"
-            variants={itemVariants}
-            initial="hidden"
-            animate={titleInView ? "visible" : "hidden"}
-          >
-            <h2 id="contact-heading" className="text-4xl md:text-5xl font-bold mb-6" style={{
-              background: 'linear-gradient(to right, var(--color-primary), var(--color-accent), var(--color-secondary))',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>Get In Touch</h2>
-            <p className="max-w-3xl mx-auto text-lg" style={{ color: 'var(--color-text-secondary)' }}>
-              Ready to start your next project? Let's discuss how we can work together to bring your ideas to life.
-            </p>
-          </motion.div>
-        </ParallaxContainer>
+      <Container size="xl" padding="lg" className="relative z-10">
+        <motion.div
+          ref={titleRef}
+          className="text-center mb-12 md:mb-16"
+          variants={itemVariants}
+          initial="hidden"
+          animate={titleInView ? "visible" : "hidden"}
+        >
+          <h2 id="contact-heading" className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6" style={{
+            backgroundImage: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>Get In Touch</h2>
+          <p className="text-base md:text-lg max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+            Ready to start your next project? Let's discuss how we can work together to bring your ideas to life.
+          </p>
+        </motion.div>
         
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 relative z-10">
           {/* Contact Information */}
-          <ParallaxContainer speed={0.3} direction="left">
+          <div>
             <motion.div
               ref={infoRef}
               className="relative z-20"
@@ -324,10 +323,10 @@ const ContactSection: React.FC = () => {
               </div>
             </motion.div>
             </motion.div>
-          </ParallaxContainer>
+          </div>
           
           {/* Contact Form */}
-          <ParallaxContainer speed={0.2} direction="right">
+          <div>
             <motion.div
               ref={formRef}
               className="relative z-20"
@@ -335,10 +334,8 @@ const ContactSection: React.FC = () => {
               initial="hidden"
               animate={formInView ? "visible" : "hidden"}
             >
-            <form onSubmit={handleSubmit(onSubmit)} className="backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 shadow-2xl border lg:mr-4" style={{
-              backgroundColor: 'var(--color-surface-glass)',
-              borderColor: 'var(--color-border-glass)'
-            }}>
+            <Card variant="glass" padding="lg" className="lg:mr-4">
+              <form onSubmit={handleSubmit(onSubmit)}>
               <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6" style={{ color: 'var(--color-text-primary)' }}>Send Message</h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -395,18 +392,19 @@ const ContactSection: React.FC = () => {
                 type="submit"
                 variant="primary"
                 size="lg"
-                loading={isSubmitting}
+                isLoading={isSubmitting}
                 leftIcon={<Send className="w-4 h-4" />}
                 fullWidth
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </Button>
-            </form>
+              </form>
+            </Card>
             </motion.div>
-          </ParallaxContainer>
+          </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

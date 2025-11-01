@@ -1,207 +1,204 @@
+/**
+ * Card Component - Design System
+ * 
+ * Reusable card container with variants and interactive states
+ */
+
 import React from 'react';
-import { motion } from 'framer-motion';
-import { useThemeClassName } from '../../hooks/useThemeClassName';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { getThemeAwareMotionProps } from '../../utils/motionConfig';
 
-interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-  variant?: 'default' | 'glass' | 'elevated' | 'bordered';
-  padding?: 'none' | 'sm' | 'md' | 'lg';
-  hover?: boolean;
+export type CardVariant = 'default' | 'elevated' | 'outlined' | 'ghost' | 'glass';
+export type CardPadding = 'none' | 'sm' | 'md' | 'lg' | 'xl';
+
+export interface CardProps extends HTMLMotionProps<'div'> {
+  variant?: CardVariant;
+  padding?: CardPadding;
+  hoverable?: boolean;
   clickable?: boolean;
-  onClick?: () => void;
+  children: React.ReactNode;
 }
 
-const Card: React.FC<CardProps> = ({
-  children,
-  className = '',
-  variant = 'default',
-  padding = 'md',
-  hover = false,
-  clickable = false,
-  onClick
-}) => {
-  const baseClasses = 'rounded-lg transition-all duration-300';
-  
-  const getVariantStyles = (variant: string) => {
-    const styles: Record<string, React.CSSProperties> = {
-      default: {
-        backgroundColor: 'var(--color-surface)',
-        borderColor: 'var(--color-border)',
-        boxShadow: 'var(--shadow-sm)'
-      },
-      glass: {
-        backgroundColor: 'var(--color-surface-glass)',
-        backdropFilter: 'blur(12px)',
-        borderColor: 'var(--color-border-glass)',
-        boxShadow: 'var(--shadow-md)'
-      },
-      elevated: {
-        backgroundColor: 'var(--color-surface)',
-        boxShadow: 'var(--shadow-lg)'
-      },
-      bordered: {
-        backgroundColor: 'var(--color-surface)',
-        borderColor: 'var(--color-border)',
-        borderWidth: '2px'
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  (
+    {
+      variant = 'default',
+      padding = 'md',
+      hoverable = false,
+      clickable = false,
+      children,
+      className = '',
+      ...props
+    },
+    ref
+  ) => {
+    // Variant styles with CSS variables
+    const getVariantStyles = (variant: CardVariant): React.CSSProperties => {
+      const baseStyle: React.CSSProperties = {
+        borderStyle: 'solid',
+        transition: 'all 200ms',
+      };
+
+      switch (variant) {
+        case 'default':
+          return {
+            ...baseStyle,
+            backgroundColor: 'var(--color-bg-primary)',
+            borderWidth: '1px',
+            borderColor: 'var(--color-border-primary)',
+            boxShadow: 'var(--shadow-sm)',
+          };
+        case 'elevated':
+          return {
+            ...baseStyle,
+            backgroundColor: 'var(--color-bg-primary)',
+            borderWidth: '1px',
+            borderColor: 'transparent',
+            boxShadow: 'var(--shadow-lg)',
+          };
+        case 'outlined':
+          return {
+            ...baseStyle,
+            backgroundColor: 'transparent',
+            borderWidth: '2px',
+            borderColor: 'var(--color-border-secondary)',
+          };
+        case 'ghost':
+          return {
+            ...baseStyle,
+            backgroundColor: 'var(--color-surface-secondary)',
+            borderWidth: '1px',
+            borderColor: 'transparent',
+          };
+        case 'glass':
+          return {
+            ...baseStyle,
+            backgroundColor: 'var(--glass-bg)',
+            borderWidth: '1px',
+            borderColor: 'var(--glass-border)',
+            backdropFilter: 'blur(12px)',
+          };
+        default:
+          return baseStyle;
       }
     };
-    return styles[variant] || styles.default;
-  };
 
-  const variantClasses = {
-    default: 'border transition-colors',
-    glass: 'backdrop-blur-sm border transition-colors',
-    elevated: 'transition-shadow hover:shadow-xl',
-    bordered: 'border-2 transition-colors'
-  };
-  
-  const paddingClasses = {
-    none: '',
-    sm: 'p-3',
-    md: 'p-4',
-    lg: 'p-6'
-  };
-  
-  const hoverClasses = hover ? 'hover:shadow-lg hover:-translate-y-1' : '';
-  const clickableClasses = clickable ? 'cursor-pointer' : '';
-  
-  const combinedClasses = `${baseClasses} ${variantClasses[variant]} ${paddingClasses[padding]} ${hoverClasses} ${clickableClasses} ${className}`;
-  const variantStyle = getVariantStyles(variant);
-  
-  const MotionComponent = motion.div;
-  
-  return (
-    <MotionComponent
-      className={combinedClasses}
-      style={variantStyle}
-      onClick={onClick}
-      {...getThemeAwareMotionProps({
-        whileHover: hover ? { y: -4, scale: 1.02 } : undefined,
-        whileTap: clickable ? { scale: 0.98 } : undefined,
-        transition: { duration: 0.15, ease: 'easeOut' }
-      })}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-    >
-      {children}
-    </MotionComponent>
-  );
-};
+    const variantClassNames = {
+      default: 'shadow-sm',
+      elevated: 'hover:shadow-xl',
+      outlined: '',
+      ghost: '',
+      glass: 'backdrop-blur-md',
+    };
 
-// Card Header Component
-interface CardHeaderProps {
+    // Padding styles
+    const paddingStyles = {
+      none: 'p-0',
+      sm: 'p-3',
+      md: 'p-4 sm:p-6',
+      lg: 'p-6 sm:p-8',
+      xl: 'p-8 sm:p-10',
+    };
+
+    // Hover styles
+    const hoverStyles = hoverable
+      ? 'transition-all duration-200 hover:shadow-md hover:-translate-y-1'
+      : '';
+
+    // Clickable styles
+    const clickableStyles = clickable
+      ? 'cursor-pointer active:scale-[0.98]'
+      : '';
+
+    // Combined class names
+    const cardClasses = `
+      rounded-xl
+      theme-transition-colors
+      ${variantClassNames[variant]}
+      ${paddingStyles[padding]}
+      ${hoverStyles}
+      ${clickableStyles}
+      ${className}
+    `.trim().replace(/\s+/g, ' ');
+
+    // Motion props for interactive cards
+    const motionProps = (hoverable || clickable)
+      ? getThemeAwareMotionProps({
+          whileHover: { y: -4 },
+          whileTap: clickable ? { scale: 0.98 } : {},
+          transition: { duration: 0.2, ease: 'easeOut' },
+        })
+      : {};
+
+    return (
+      <motion.div
+        ref={ref}
+        className={cardClasses}
+        style={getVariantStyles(variant)}
+        {...motionProps}
+        {...props}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+);
+
+Card.displayName = 'Card';
+
+// Subcomponents for better composition
+export const CardHeader: React.FC<{
   children: React.ReactNode;
   className?: string;
-}
+}> = ({ children, className = '' }) => (
+  <div className={`mb-4 ${className}`}>
+    {children}
+  </div>
+);
 
-export const CardHeader: React.FC<CardHeaderProps> = ({ children, className = '' }) => {
-  return (
-    <div 
-      className={`border-b pb-3 mb-4 ${className}`}
-      style={{
-        borderBottomColor: 'var(--color-border)',
-        color: 'var(--color-text-primary)'
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-// Card Title Component
-interface CardTitleProps {
+export const CardTitle: React.FC<{
   children: React.ReactNode;
   className?: string;
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-}
+}> = ({ children, className = '' }) => (
+  <h3 
+    className={`text-xl font-bold theme-transition-colors ${className}`}
+    style={{ color: 'var(--color-text-primary)' }}
+  >
+    {children}
+  </h3>
+);
 
-export const CardTitle: React.FC<CardTitleProps> = ({ 
-  children, 
-  className = '', 
-  as: Component = 'h3' 
-}) => {
-  const baseClasses = 'font-semibold';
-  const sizeClasses = {
-    h1: 'text-3xl',
-    h2: 'text-2xl',
-    h3: 'text-xl',
-    h4: 'text-lg',
-    h5: 'text-base',
-    h6: 'text-sm'
-  };
-  
-  return (
-    <Component 
-      className={`${baseClasses} ${sizeClasses[Component]} ${className}`}
-      style={{
-        color: 'var(--color-text-primary)'
-      }}
-    >
-      {children}
-    </Component>
-  );
-};
-
-// Card Description Component
-interface CardDescriptionProps {
+export const CardDescription: React.FC<{
   children: React.ReactNode;
   className?: string;
-}
+}> = ({ children, className = '' }) => (
+  <p 
+    className={`text-sm theme-transition-colors mt-1 ${className}`}
+    style={{ color: 'var(--color-text-secondary)' }}
+  >
+    {children}
+  </p>
+);
 
-export const CardDescription: React.FC<CardDescriptionProps> = ({ children, className = '' }) => {
-  return (
-    <p 
-      className={`text-sm mt-1 ${className}`}
-      style={{
-        color: 'var(--color-text-secondary)'
-      }}
-    >
-      {children}
-    </p>
-  );
-};
-
-// Card Content Component
-interface CardContentProps {
+export const CardContent: React.FC<{
   children: React.ReactNode;
   className?: string;
-}
+}> = ({ children, className = '' }) => (
+  <div className={`${className}`}>
+    {children}
+  </div>
+);
 
-export const CardContent: React.FC<CardContentProps> = ({ children, className = '' }) => {
-  return (
-    <div 
-      className={className}
-      style={{
-        color: 'var(--color-text-secondary)'
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-// Card Footer Component
-interface CardFooterProps {
+export const CardFooter: React.FC<{
   children: React.ReactNode;
   className?: string;
-}
-
-export const CardFooter: React.FC<CardFooterProps> = ({ children, className = '' }) => {
-  return (
-    <div 
-      className={`border-t pt-3 mt-4 ${className}`}
-      style={{
-        borderTopColor: 'var(--color-border)',
-        color: 'var(--color-text-secondary)'
-      }}
-    >
-      {children}
-    </div>
-  );
-};
+}> = ({ children, className = '' }) => (
+  <div 
+    className={`mt-4 pt-4 border-t theme-transition-colors ${className}`}
+    style={{ borderColor: 'var(--color-border-primary)' }}
+  >
+    {children}
+  </div>
+);
 
 export default Card;

@@ -1,229 +1,165 @@
+/**
+ * Button Component - Design System
+ * 
+ * Reusable, accessible button with multiple variants
+ */
+
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { getThemeAwareMotionProps } from '../../utils/motionConfig';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive';
-  size?: 'sm' | 'md' | 'lg';
-  loading?: boolean;
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
+
+export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'size'> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-  fullWidth?: boolean;
   children: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'md',
-  loading = false,
-  leftIcon,
-  rightIcon,
-  fullWidth = false,
-  children,
-  className = '',
-  disabled,
-  ...props
-}) => {
-  const baseClasses = `
-    inline-flex items-center justify-center
-    font-medium rounded-lg transition-all duration-200
-    focus:outline-none focus:ring-2 focus:ring-offset-2
-    disabled:opacity-50 disabled:cursor-not-allowed
-    ${fullWidth ? 'w-full' : ''}
-  `;
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      fullWidth = false,
+      isLoading = false,
+      leftIcon,
+      rightIcon,
+      children,
+      className = '',
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
+    // Variant styles with CSS variables
+    const getVariantStyles = (variant: ButtonVariant): React.CSSProperties => {
+      const baseStyle: React.CSSProperties = {
+        borderWidth: '2px',
+        borderStyle: 'solid',
+        transition: 'all 150ms',
+      };
 
-  const getButtonStyles = (variant: keyof typeof buttonVariants) => {
-    const styles: Record<string, React.CSSProperties> = {
-      primary: {
-        backgroundColor: 'var(--color-primary)',
-        color: 'var(--color-primary-foreground)',
-        borderColor: 'transparent',
-        boxShadow: 'var(--shadow-md)'
-      },
-      secondary: {
-        backgroundColor: 'var(--color-secondary)',
-        color: 'var(--color-secondary-foreground)',
-        borderColor: 'var(--color-border)'
-      },
-      outline: {
-        backgroundColor: 'transparent',
-        color: 'var(--color-text-primary)',
-        borderColor: 'var(--color-border)'
-      },
-      ghost: {
-        backgroundColor: 'transparent',
-        color: 'var(--color-text-primary)',
-        borderColor: 'transparent'
-      },
-      destructive: {
-        backgroundColor: 'var(--color-destructive)',
-        color: 'var(--color-destructive-foreground)',
-        borderColor: 'transparent',
-        boxShadow: 'var(--shadow-md)'
+      switch (variant) {
+        case 'primary':
+          return {
+            ...baseStyle,
+            backgroundColor: 'var(--color-accent-primary)',
+            color: 'var(--color-text-inverse)',
+            borderColor: 'var(--color-accent-primary)',
+          };
+        case 'secondary':
+          return {
+            ...baseStyle,
+            backgroundColor: 'var(--color-surface-secondary)',
+            color: 'var(--color-text-primary)',
+            borderColor: 'var(--color-border-primary)',
+          };
+        case 'outline':
+          return {
+            ...baseStyle,
+            backgroundColor: 'transparent',
+            color: 'var(--color-text-primary)',
+            borderColor: 'var(--color-border-secondary)',
+          };
+        case 'ghost':
+          return {
+            ...baseStyle,
+            backgroundColor: 'transparent',
+            color: 'var(--color-text-primary)',
+            borderColor: 'transparent',
+          };
+        case 'danger':
+          return {
+            ...baseStyle,
+            backgroundColor: 'var(--color-error)',
+            color: 'var(--color-text-inverse)',
+            borderColor: 'var(--color-error)',
+          };
+        default:
+          return baseStyle;
       }
     };
-    return styles[variant] || styles.primary;
-  };
 
-  const buttonVariants = {
-    primary: 'border-transparent shadow-md hover:shadow-lg transition-all duration-200',
-    secondary: 'border transition-all duration-200',
-    outline: 'border hover:shadow-sm transition-all duration-200',
-    ghost: 'border-transparent hover:shadow-sm transition-all duration-200',
-    destructive: 'border-transparent shadow-md hover:shadow-lg transition-all duration-200'
-  };
+    const variantClassNames = {
+      primary: 'hover:opacity-90 active:opacity-80 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed',
+      secondary: 'hover:opacity-90 active:opacity-80 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed',
+      outline: 'hover:bg-[var(--color-hover-overlay)] active:bg-[var(--color-active-overlay)] disabled:opacity-50 disabled:cursor-not-allowed',
+      ghost: 'hover:bg-[var(--color-hover-overlay)] active:bg-[var(--color-active-overlay)] disabled:opacity-50 disabled:cursor-not-allowed',
+      danger: 'hover:opacity-90 active:opacity-80 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed',
+    };
 
-  const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm gap-1.5',
-    md: 'px-4 py-2 text-sm gap-2',
-    lg: 'px-6 py-3 text-base gap-2.5'
-  };
+    // Size styles
+    const sizeStyles = {
+      sm: 'px-3 py-1.5 text-sm rounded-lg',
+      md: 'px-4 py-2 text-base rounded-lg',
+      lg: 'px-6 py-3 text-lg rounded-xl',
+      xl: 'px-8 py-4 text-xl rounded-2xl',
+    };
 
-  const isDisabled = disabled || loading;
+    // Combined class names
+    const buttonClasses = `
+      inline-flex items-center justify-center gap-2
+      font-semibold
+      theme-transition-colors
+      focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-primary)] focus:ring-offset-2
+      ${variantClassNames[variant]}
+      ${sizeStyles[size]}
+      ${fullWidth ? 'w-full' : ''}
+      ${className}
+    `.trim().replace(/\s+/g, ' ');
 
-  const buttonStyle = getButtonStyles(variant);
-  
-  // Get optimized motion props that respect theme transitions
-  const motionProps = getThemeAwareMotionProps({
-    whileHover: !isDisabled ? { scale: 1.02 } : {},
-    whileTap: !isDisabled ? { scale: 0.98 } : {},
-    transition: { duration: 0.1, ease: 'easeOut' }
-  });
+    // Motion props
+    const motionProps = getThemeAwareMotionProps({
+      whileHover: disabled || isLoading ? {} : { scale: 1.02, y: -2 },
+      whileTap: disabled || isLoading ? {} : { scale: 0.98 },
+      transition: { duration: 0.15, ease: 'easeOut' },
+    });
 
-  return (
-    <motion.button
-      className={`
-        ${baseClasses}
-        ${buttonVariants[variant]}
-        ${sizeClasses[size]}
-        ${className}
-      `}
-      style={{
-        ...buttonStyle,
-        '--focus-ring-color': 'var(--color-primary)',
-        '--hover-transform': 'scale(1.02)'
-      }}
-      onMouseEnter={(e) => {
-        if (variant === 'primary') {
-          e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
-        } else if (variant === 'secondary') {
-          e.currentTarget.style.backgroundColor = 'var(--color-secondary-hover)';
-        } else if (variant === 'outline') {
-          e.currentTarget.style.backgroundColor = 'var(--color-surface-hover)';
-          e.currentTarget.style.borderColor = 'var(--color-border-hover)';
-        } else if (variant === 'ghost') {
-          e.currentTarget.style.backgroundColor = 'var(--color-surface-hover)';
-        } else if (variant === 'destructive') {
-          e.currentTarget.style.backgroundColor = 'var(--color-destructive-hover)';
-        }
-      }}
-      onMouseLeave={(e) => {
-        const originalStyle = getButtonStyles(variant);
-        e.currentTarget.style.backgroundColor = originalStyle.backgroundColor || '';
-        if (variant === 'outline') {
-          e.currentTarget.style.borderColor = 'var(--color-border)';
-        }
-      }}
-      disabled={isDisabled}
-      {...motionProps}
-      {...(props as any)}
-    >
-      {loading && (
-        <Loader2 className="w-4 h-4 animate-spin" />
-      )}
-      {!loading && leftIcon && leftIcon}
-      <span className={loading ? 'opacity-0' : ''}>
-        {children}
-      </span>
-      {!loading && rightIcon && rightIcon}
-    </motion.button>
-  );
-};
+    return (
+      <motion.button
+        ref={ref}
+        className={buttonClasses}
+        style={getVariantStyles(variant)}
+        disabled={disabled || isLoading}
+        {...motionProps}
+        {...props}
+      >
+        {isLoading && (
+          <svg
+            className="animate-spin h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+        )}
+        {!isLoading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+        <span>{children}</span>
+        {!isLoading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+      </motion.button>
+    );
+  }
+);
 
-// Icon Button variant
-interface IconButtonProps extends Omit<ButtonProps, 'leftIcon' | 'rightIcon' | 'children'> {
-  icon: React.ReactNode;
-  'aria-label': string;
-}
+Button.displayName = 'Button';
 
-export const IconButton: React.FC<IconButtonProps> = ({
-  icon,
-  size = 'md',
-  variant = 'ghost',
-  className = '',
-  ...props
-}) => {
-  const sizeClasses = {
-    sm: 'p-1.5',
-    md: 'p-2',
-    lg: 'p-3'
-  };
-
-  return (
-    <Button
-      variant={variant}
-      className={`${sizeClasses[size]} ${className}`}
-      {...props}
-    >
-      {icon}
-    </Button>
-  );
-};
-
-// Button Group component
-interface ButtonGroupProps {
-  children: React.ReactNode;
-  orientation?: 'horizontal' | 'vertical';
-  className?: string;
-}
-
-export const ButtonGroup: React.FC<ButtonGroupProps> = ({
-  children,
-  orientation = 'horizontal',
-  className = ''
-}) => {
-  const orientationClasses = {
-    horizontal: 'flex-row',
-    vertical: 'flex-col'
-  };
-
-  return (
-    <div className={`inline-flex ${orientationClasses[orientation]} ${className}`}>
-      {React.Children.map(children, (child, index) => {
-        if (React.isValidElement(child)) {
-          const isFirst = index === 0;
-          const isLast = index === React.Children.count(children) - 1;
-          
-          let additionalClasses = '';
-          
-          if (orientation === 'horizontal') {
-            if (!isFirst && !isLast) {
-              additionalClasses = 'rounded-none border-l-0';
-            } else if (isFirst) {
-              additionalClasses = 'rounded-r-none';
-            } else if (isLast) {
-              additionalClasses = 'rounded-l-none border-l-0';
-            }
-          } else {
-            if (!isFirst && !isLast) {
-              additionalClasses = 'rounded-none border-t-0';
-            } else if (isFirst) {
-              additionalClasses = 'rounded-b-none';
-            } else if (isLast) {
-              additionalClasses = 'rounded-t-none border-t-0';
-            }
-          }
-
-          return React.cloneElement(child as React.ReactElement<any>, {
-            className: `${(child as any).props.className || ''} ${additionalClasses}`.trim()
-          });
-        }
-        return child;
-      })}
-    </div>
-  );
-};
-
-export { Button };
 export default Button;

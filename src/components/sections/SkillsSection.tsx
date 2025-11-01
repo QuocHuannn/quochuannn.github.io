@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { skills, skillCategories } from '../../data/skills';
 import { getSkillsByCategory, getSkillLevelColor, getSkillLevelText } from '../../utils/skillUtils';
 import { getThemeAwareMotionProps } from '../../utils/motionConfig';
+import Container from '../ui/Container';
+import Card from '../ui/Card';
 
 const SkillsSection: React.FC = () => {
   const backgroundStyles = {
@@ -45,46 +47,51 @@ const SkillsSection: React.FC = () => {
         <div className="absolute top-3/4 right-1/4 w-1.5 h-1.5 bg-purple-400 rounded-full animate-ping" style={{ animationDelay: '2.5s' }} />
       </div>
       
-      <div className="container mx-auto px-4 relative z-10">
+      <Container size="xl" padding="lg" className="relative z-10">
         {/* Header Section */}
         <motion.div 
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-12 md:mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full border shadow-lg mb-6"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full border mb-6"
             style={{
               backgroundColor: 'var(--color-surface-glass)',
               borderColor: 'var(--color-border-glass)',
               color: 'var(--color-text-primary)'
             }}
           >
-            <span className="text-2xl">⚡</span>
-            <span className="font-semibold">Technical Expertise</span>
+            <span className="text-xl">⚡</span>
+            <span className="font-semibold text-sm md:text-base">Technical Expertise</span>
           </motion.div>
           
           <motion.h2 
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
-            style={{ color: 'var(--color-text-primary)' }}
+            className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight"
+            style={{
+              backgroundImage: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             Skills & Technologies
           </motion.h2>
           
           <motion.p 
-            className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
+            className="text-base md:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed"
             style={{ color: 'var(--color-text-secondary)' }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
             Mastering cutting-edge technologies to build exceptional digital experiences
           </motion.p>
@@ -112,16 +119,11 @@ const SkillsSection: React.FC = () => {
                   delay: categoryIndex * 0.15
                 }}
                 viewport={{ once: true }}
-                className="group cursor-pointer hover:z-10"
+                className="group"
               >
-                <div className="h-full p-6 md:p-8 rounded-3xl backdrop-blur-xl border shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative overflow-hidden flex flex-col min-h-[420px] group-hover:border-opacity-60" style={{
-                  backgroundColor: 'var(--color-surface-glass)',
-                  borderColor: 'var(--color-border-glass)'
-                }}>
-                  {/* Hover Background Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+                <Card variant="glass" padding="lg" hoverable className="h-full flex flex-col min-h-[380px] md:min-h-[420px]">
                   {/* Category Header */}
-                  <div className="relative z-10 flex items-center mb-6 flex-shrink-0">
+                  <div className="flex items-center mb-6 flex-shrink-0">
                     <motion.div 
                       className={`p-4 bg-gradient-to-br ${
                         category.color === 'accent-blue' ? 'from-blue-500 via-blue-600 to-indigo-700' : 
@@ -147,7 +149,7 @@ const SkillsSection: React.FC = () => {
                   </div>
                   
                   {/* Skills List */}
-                  <div className="relative z-10 flex flex-col gap-3 flex-grow">
+                  <div className="flex flex-col gap-3 flex-grow">
                     {categorySkills.map((skill, skillIndex) => {
                       return (
                         <motion.div
@@ -186,13 +188,16 @@ const SkillsSection: React.FC = () => {
                             <div className="flex items-center gap-3 flex-shrink-0">
                               {/* Progress Bar */}
                               <div className="flex-1 min-w-[80px]">
-                                <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden shadow-inner">
+                                <div 
+                                  className="h-2 rounded-full overflow-hidden shadow-inner"
+                                  style={{ backgroundColor: 'var(--color-surface-tertiary)' }}
+                                >
                                   <motion.div
                                     className={`h-full bg-gradient-to-r ${
                                       skill.level >= 85 ? 'from-emerald-500 to-teal-600' :
-                                      skill.level >= 75 ? 'from-blue-500 to-indigo-600' :
-                                      skill.level >= 65 ? 'from-amber-500 to-orange-600' :
-                                      'from-slate-500 to-gray-600'
+                                      skill.level >= 75 ? 'from-[var(--color-accent-primary)] to-[var(--color-accent-secondary)]' :
+                                      skill.level >= 65 ? 'from-[var(--color-warning)] to-[var(--color-error)]' :
+                                      'from-[var(--color-text-tertiary)] to-[var(--color-text-secondary)]'
                                     } rounded-full relative ${
                                       skill.level >= 85 ? 'shadow-lg shadow-emerald-500/30' : ''
                                     }`}
@@ -248,7 +253,7 @@ const SkillsSection: React.FC = () => {
                           <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-800 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300 pointer-events-none z-50 whitespace-nowrap">
                             <div className="text-center">
                               <div className="font-semibold">{skill.name}</div>
-                              <div className="text-gray-300">
+                              <div style={{ color: 'var(--color-text-tertiary)' }}>
                                 {skill.level >= 90 ? 'Expert Level' :
                                  skill.level >= 85 ? 'Advanced' :
                                  skill.level >= 75 ? 'Proficient' :
@@ -257,18 +262,21 @@ const SkillsSection: React.FC = () => {
                               </div>
                             </div>
                             {/* Tooltip Arrow */}
-                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-800"></div>
+                            <div 
+                              className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent"
+                              style={{ borderTopColor: 'var(--color-bg-tertiary)' }}
+                            ></div>
                           </div>
                         </motion.div>
                       );
                     })}
                   </div>
-                </div>
+                </Card>
               </motion.div>
             );
           })}
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

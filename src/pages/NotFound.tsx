@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Home, ArrowLeft, Search, AlertCircle } from 'lucide-react';
-import { Button } from '../components/ui/Button';
+import Button from '../components/ui/Button';
 
 const NotFound: React.FC = () => {
   const handleGoHome = () => {

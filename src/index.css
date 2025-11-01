@@ -4,6 +4,7 @@
 @import './styles/compatibility.css';
 @import './styles/mobile.css';
 @import './styles/utilities/animations.css';
+@import './styles/utilities/design-system.css';
 
 @tailwind base;
 @tailwind components;
@@ -79,7 +80,7 @@
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-accent-blue via-accent-purple to-accent-teal bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-600 bg-clip-text text-transparent;
   }
 
   .glass-effect {
@@ -92,8 +93,8 @@
   }
 
   .btn-primary {
-    @apply bg-accent-blue hover:bg-accent-blue/90 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg hover:scale-105;
-    @apply dark:bg-accent-blue dark:hover:bg-accent-blue/80;
+    @apply bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg hover:scale-105;
+    @apply dark:bg-primary-500 dark:hover:bg-primary-600;
     transition: all 0.3s ease;
   }
 
