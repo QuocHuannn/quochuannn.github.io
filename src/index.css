@@ -3,6 +3,7 @@
 @import './styles/theme-transitions.css';
 @import './styles/compatibility.css';
 @import './styles/mobile.css';
+@import './styles/utilities/animations.css';
 
 @tailwind base;
 @tailwind components;
@@ -22,7 +23,6 @@
 
   * {
     @apply border-gray-200 dark:border-neutral-700;
-    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
   }
 
   body {

@@ -239,41 +239,59 @@
 }
 
 /* ==========================================================================
-   SMOOTH TRANSITIONS
+   OPTIMIZED TRANSITIONS - Performance First
    ========================================================================== */
 
-/* Global transition for theme switching */
-* {
-  transition: 
-    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Animation Duration Variables */
+:root {
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-/* Enhanced transitions for specific elements */
-.theme-transition {
-  transition: 
-    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Specific Theme Transition Classes - No Global Selector */
+.theme-transition-colors {
+  transition:
+    background-color var(--duration-normal) var(--ease-out-quad),
+    color var(--duration-normal) var(--ease-out-quad),
+    border-color var(--duration-normal) var(--ease-out-quad);
 }
 
-/* Disable transitions during theme switching for performance */
-html.theme-switching * {
+.theme-transition-effects {
+  transition:
+    box-shadow var(--duration-normal) var(--ease-out-quad),
+    backdrop-filter var(--duration-normal) var(--ease-out-quad),
+    opacity var(--duration-normal) var(--ease-out-quad);
+}
+
+.theme-transition-complete {
+  transition:
+    background-color var(--duration-normal) var(--ease-out-quad),
+    color var(--duration-normal) var(--ease-out-quad),
+    border-color var(--duration-normal) var(--ease-out-quad),
+    box-shadow var(--duration-normal) var(--ease-out-quad);
+}
+
+/* Interactive Element Transitions */
+.transition-smooth {
+  transition: all var(--duration-normal) var(--ease-out-quad);
+}
+
+.transition-fast {
+  transition: all var(--duration-fast) var(--ease-out-quad);
+}
+
+.transition-hover {
+  transition: transform var(--duration-fast) var(--ease-out-quad);
+}
+
+/* Theme switching optimizations - Only target elements that need transitions */
+html.theme-switching .theme-transition-colors,
+html.theme-switching .theme-transition-effects,
+html.theme-switching .theme-transition-complete {
   transition: none !important;
-}
-
-/* Re-enable transitions after theme switch */
-html.theme-switching.theme-switched * {
-  transition: 
-    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* ==========================================================================

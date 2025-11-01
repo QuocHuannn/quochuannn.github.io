@@ -1,0 +1,139 @@
+/* ==========================================================================
+   Animation Utilities - Performance Optimized
+   ========================================================================== */
+
+/* Will-Change Optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+.will-change-auto {
+  will-change: auto;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform var(--duration-fast) var(--ease-out-quad);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-scale {
+  transition: transform var(--duration-fast) var(--ease-out-quad);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Focus Effects */
+.focus-ring {
+  transition: box-shadow var(--duration-fast) var(--ease-out-quad);
+}
+
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-accent-primary);
+}
+
+/* Loading States */
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Entrance Animations */
+.fade-in {
+  animation: fadeIn var(--duration-normal) var(--ease-out-quad) forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-in-up {
+  animation: slideInUp var(--duration-normal) var(--ease-out-quad) forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Parallax Base */
+.parallax-element {
+  will-change: transform;
+  transform: translate3d(0, 0, 0); /* Force GPU layer */
+}
+
+/* Button Animations */
+.btn-animate {
+  transition:
+    transform var(--duration-fast) var(--ease-out-quad),
+    box-shadow var(--duration-fast) var(--ease-out-quad);
+}
+
+.btn-animate:hover {
+  transform: translateY(-1px);
+}
+
+.btn-animate:active {
+  transform: translateY(0);
+}
+
+/* Card Animations */
+.card-animate {
+  transition:
+    transform var(--duration-normal) var(--ease-out-quad),
+    box-shadow var(--duration-normal) var(--ease-out-quad);
+}
+
+.card-animate:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .hover-lift,
+  .hover-scale,
+  .btn-animate,
+  .card-animate,
+  .transition-smooth,
+  .transition-fast,
+  .transition-hover {
+    transition: none;
+  }
+
+  .fade-in,
+  .slide-in-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .loading-pulse {
+    animation: none;
+  }
+}

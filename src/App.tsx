@@ -15,9 +15,8 @@ const AccessibilityTest = lazy(() => import('./components/test/AccessibilityTest
 const PerformanceTest = lazy(() => import('./components/test/PerformanceTest'));
 const TestIndex = lazy(() => import('./components/test/TestIndex'));
 
-import Layout from './components/Layout';
 import HeroSection from './components/sections/HeroSection';
-import { 
+import {
   LazyAboutSection,
   LazySkillsSection,
   LazyExperienceSection,
@@ -25,8 +24,7 @@ import {
   LazyContactSection
 } from './components/ui/LazySection';
 
-
-import SmoothScrollNavigation from './components/navigation/SmoothScrollNavigation';
+import NavigationManager from './components/navigation/NavigationManager';
 
 import SEO from './components/SEO/SEO';
 import SkipLinks from './components/accessibility/SkipLinks';
@@ -36,22 +34,12 @@ import NotFound from './pages/NotFound';
 import GoogleAnalytics, { useScrollTracking } from './components/analytics/GoogleAnalytics';
 import OfflineIndicator from './components/ui/OfflineIndicator';
 import ImagePreloader from './components/ui/ImagePreloader';
-import { User, Code, Briefcase, FolderOpen, Mail, Home } from 'lucide-react';
 
 // Main Portfolio Component
 const Portfolio: React.FC = () => {
   // Enable scroll tracking for analytics
   useScrollTracking();
   
-  // Navigation items for smooth scroll
-  const navigationItems = [
-    { id: 'hero', label: 'Home', icon: <Home className="w-4 h-4" /> },
-    { id: 'about', label: 'About', icon: <User className="w-4 h-4" /> },
-    { id: 'skills', label: 'Skills', icon: <Code className="w-4 h-4" /> },
-    { id: 'experience', label: 'Experience', icon: <Briefcase className="w-4 h-4" /> },
-    { id: 'projects', label: 'Projects', icon: <FolderOpen className="w-4 h-4" /> },
-    { id: 'contact', label: 'Contact', icon: <Mail className="w-4 h-4" /> }
-  ];
   
   return (
     <>
@@ -79,15 +67,11 @@ const Portfolio: React.FC = () => {
       {/* Offline Indicator */}
       <OfflineIndicator showWhenOnline={true} position="top" />
       
-      {/* Smooth Scroll Navigation */}
-      <SmoothScrollNavigation 
-        items={navigationItems}
-        showMobileMenu={true}
-      />
-      
+      {/* Consolidated Navigation */}
+      <NavigationManager />
 
-      
-      <Layout>
+      {/* Main Content Layout */}
+      <div className="min-h-screen bg-cream-50">
         <main id="main-content" role="main" tabIndex={-1}>
             <section id="hero" aria-labelledby="hero-heading">
             <HeroSection />
@@ -113,8 +97,7 @@ const Portfolio: React.FC = () => {
             aria-labelledby="contact-heading"
           />
         </main>
-        
-      </Layout>
+      </div>
       
 
     </>
