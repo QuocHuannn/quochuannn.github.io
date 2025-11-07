@@ -47,18 +47,21 @@
     <script>
       (function(){try{var t=localStorage.getItem('theme'),a=t==='light'||t==='dark'?t:'light',d=document.documentElement,m=document.querySelector('meta[name="theme-color"]');d.setAttribute('data-theme',a);d.classList.add(a);m&&(m.content=a==='dark'?'#0f172a':'#ffffff')}catch(e){document.documentElement.setAttribute('data-theme','light');document.documentElement.classList.add('light')}})();
     </script>
-    <script type="module">
-      if (import.meta.hot?.on) {
-        import.meta.hot.on('vite:error', (error) => {
-          if (error.err) {
-            console.error([error.err.message, error.err.frame].filter(Boolean).join('\n'));
-          }
-        });
-      }
-    </script>
+    <script type="module" crossorigin src="/assets/js/index-Dcz5EtRH.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/js/vendor-Dr3LqIF9.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/react-vendor-Z_4RhRe6.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/utils-B30PI53b.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/hooks-Bg0oNxwz.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/theme-core-CFJN5RsB.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/motion-Bk-wstwu.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/theme-advanced-8-y3tNqu.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/theme-misc-BuaoJUQ8.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/theme-components-OduIQvfo.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/ui-D5DiGoh7.js">
+    <link rel="modulepreload" crossorigin href="/assets/js/sections-BxGVI77o.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-DjA_JYGh.css">
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
