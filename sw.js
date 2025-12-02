@@ -1,4 +1,4 @@
-const VERSION = '251202';
+const VERSION = '251202-p5';
 const CACHE_NAME = `portfolio-v${VERSION}`;
 const STATIC_CACHE = `static-v${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-v${VERSION}`;
@@ -24,7 +24,9 @@ const STATIC_ASSETS = [
   '/assets/js/ui-D5DiGoh7.js',
   '/assets/js/sections-BxGVI77o.js',
   '/assets/js/themeChunkSplitter-gogGKRIm.js',
-  '/assets/index-DjA_JYGh.css'
+  '/assets/index-DjA_JYGh.css',
+  '/assets/mobile-enhancements.css',
+  '/assets/accessibility-enhancements.css'
 ];
 
 // Install event - cache static assets

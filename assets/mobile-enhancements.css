@@ -1,0 +1,294 @@
+/**
+ * Phase 03: Mobile-First Enhancements
+ * Container Queries for component-level responsiveness
+ * Date: 2025-12-02
+ */
+
+/* ========================================
+   Container Query Definitions
+   ======================================== */
+
+/* Card containers - enable container queries */
+.card-container,
+.project-card-wrapper,
+.skill-card-wrapper,
+.experience-card-wrapper {
+  container-type: inline-size;
+  container-name: card;
+}
+
+/* Section containers */
+.section-container,
+[class*="section"] > .container {
+  container-type: inline-size;
+  container-name: section;
+}
+
+/* Grid item containers */
+.grid-item-container {
+  container-type: inline-size;
+  container-name: grid-item;
+}
+
+/* ========================================
+   Container Query Responsive Rules
+   ======================================== */
+
+/* Card responsive behavior based on container width */
+@container card (max-width: 300px) {
+  .card-title {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .card-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    -webkit-line-clamp: 2;
+  }
+
+  .card-tags {
+    gap: 0.25rem;
+  }
+
+  .card-tag {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.375rem;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .card-image {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@container card (min-width: 301px) and (max-width: 450px) {
+  .card-title {
+    font-size: 1.125rem;
+  }
+
+  .card-description {
+    font-size: 0.9375rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .card-tags {
+    gap: 0.375rem;
+  }
+}
+
+@container card (min-width: 451px) {
+  .card-title {
+    font-size: 1.25rem;
+  }
+
+  .card-description {
+    font-size: 1rem;
+    -webkit-line-clamp: 4;
+  }
+
+  .card-actions {
+    flex-direction: row;
+  }
+}
+
+/* Section responsive behavior */
+@container section (max-width: 480px) {
+  .section-title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    text-align: center;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .section-content {
+    padding: 1rem;
+  }
+}
+
+@container section (min-width: 481px) and (max-width: 768px) {
+  .section-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@container section (min-width: 769px) {
+  .section-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* ========================================
+   Enhanced Mobile Touch Targets
+   ======================================== */
+
+/* Ensure all interactive elements meet 44x44px minimum */
+@media (hover: none) and (pointer: coarse) {
+  button:not(.icon-button-sm),
+  a:not(.text-link),
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  .btn,
+  .nav-link,
+  .social-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Increase tap area for small icons */
+  .icon-button,
+  .social-icon {
+    position: relative;
+  }
+
+  .icon-button::before,
+  .social-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ========================================
+   Additional Safe Area Enhancements
+   ======================================== */
+
+/* Full viewport height accounting for safe areas */
+.full-height-safe {
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+/* Fixed elements with safe area padding */
+.fixed-top-safe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.fixed-bottom-safe {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* ========================================
+   Mobile Navigation Enhancements
+   ======================================== */
+
+/* Swipe-friendly navigation */
+.swipe-container {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.swipe-container::-webkit-scrollbar {
+  display: none;
+}
+
+.swipe-item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Bottom sheet navigation for mobile */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: env(safe-area-inset-bottom);
+  border-radius: 1rem 1rem 0 0;
+  touch-action: pan-y;
+}
+
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--color-border-primary, #e5e7eb);
+  border-radius: 2px;
+  margin: 0.75rem auto;
+}
+
+/* ========================================
+   Performance Optimizations
+   ======================================== */
+
+/* Contain layout for performance */
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-strict {
+  contain: strict;
+}
+
+/* Content visibility for off-screen optimization */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* ========================================
+   Fallbacks for older browsers
+   ======================================== */
+
+/* Container query fallback */
+@supports not (container-type: inline-size) {
+  /* Fallback to media queries */
+  @media (max-width: 300px) {
+    .card-title {
+      font-size: 1rem;
+    }
+    .card-description {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+/* Dynamic viewport height fallback */
+@supports not (min-height: 100dvh) {
+  .full-height-safe {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
