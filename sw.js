@@ -1,14 +1,30 @@
-const CACHE_NAME = 'portfolio-v1';
-const STATIC_CACHE = 'static-v1';
-const DYNAMIC_CACHE = 'dynamic-v1';
+const VERSION = '251202';
+const CACHE_NAME = `portfolio-v${VERSION}`;
+const STATIC_CACHE = `static-v${VERSION}`;
+const DYNAMIC_CACHE = `dynamic-v${VERSION}`;
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/images/ava-dlat.JPG',
-  // Add other critical assets
+  '/images/ava-dlat.webp',
+  '/images/ava-dlat-800.webp',
+  '/images/ava-dlat-400.webp',
+  '/assets/js/index-Dcz5EtRH.js',
+  '/assets/js/vendor-Dr3LqIF9.js',
+  '/assets/js/react-vendor-Z_4RhRe6.js',
+  '/assets/js/utils-B30PI53b.js',
+  '/assets/js/hooks-Bg0oNxwz.js',
+  '/assets/js/theme-core-CFJN5RsB.js',
+  '/assets/js/motion-Bk-wstwu.js',
+  '/assets/js/theme-advanced-8-y3tNqu.js',
+  '/assets/js/theme-misc-BuaoJUQ8.js',
+  '/assets/js/theme-components-OduIQvfo.js',
+  '/assets/js/ui-D5DiGoh7.js',
+  '/assets/js/sections-BxGVI77o.js',
+  '/assets/js/themeChunkSplitter-gogGKRIm.js',
+  '/assets/index-DjA_JYGh.css'
 ];
 
 // Install event - cache static assets
@@ -59,38 +75,33 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Skip external requests (except for images)
-  if (url.origin !== location.origin && !request.url.includes('trae-api-sg.mchost.guru')) {
+  // Skip external requests (except whitelisted APIs)
+  if (url.origin !== location.origin && url.origin !== 'https://trae-api-sg.mchost.guru') {
     return;
   }
   
+  // Stale-while-revalidate strategy
   event.respondWith(
     caches.match(request)
       .then((cachedResponse) => {
-        if (cachedResponse) {
-          // Serve from cache
-          return cachedResponse;
-        }
-        
-        // Fetch from network and cache
-        return fetch(request)
+        const fetchPromise = fetch(request)
           .then((networkResponse) => {
             // Don't cache non-successful responses
             if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
               return networkResponse;
             }
-            
+
             // Clone the response
             const responseToCache = networkResponse.clone();
-            
+
             // Determine cache strategy
             const cacheName = isStaticAsset(request.url) ? STATIC_CACHE : DYNAMIC_CACHE;
-            
+
             caches.open(cacheName)
               .then((cache) => {
                 cache.put(request, responseToCache);
               });
-            
+
             return networkResponse;
           })
           .catch(() => {
@@ -98,7 +109,7 @@ self.addEventListener('fetch', (event) => {
             if (request.destination === 'document') {
               return caches.match('/index.html');
             }
-            
+
             // Return a fallback image for failed image requests
             if (request.destination === 'image') {
               return new Response(
@@ -107,6 +118,9 @@ self.addEventListener('fetch', (event) => {
               );
             }
           });
+
+        // Return cached response immediately, update in background
+        return cachedResponse || fetchPromise;
       })
   );
 });
