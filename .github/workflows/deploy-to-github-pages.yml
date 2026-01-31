@@ -32,17 +32,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Copy images to dist
-        run: cp -r images dist/ 2>/dev/null || true
-
-      - name: Copy favicons to dist
-        run: |
-          cp favicon.svg dist/ 2>/dev/null || true
-          cp favicon.ico dist/ 2>/dev/null || true
-          cp favicon*.png dist/ 2>/dev/null || true
-          cp apple-touch-icon.png dist/ 2>/dev/null || true
-          cp android-chrome*.png dist/ 2>/dev/null || true
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
