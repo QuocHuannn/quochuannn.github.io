@@ -85,3 +85,6 @@ mcp-management.zip
 mcp-builder.zip
 repomix-output.md
 release-manifest.json
+
+# Blender source files (not deployed)
+blender/
