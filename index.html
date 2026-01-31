@@ -1,71 +1,20 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <!-- Favicon Links -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- SEO Meta Tags -->
-    <title>Huân Portfolio - Full Stack Developer & 3D Web Specialist</title>
-    <meta name="description" content="Portfolio của Huân - Full Stack Developer chuyên về React, Node.js, và 3D web experiences. Khám phá các dự án sáng tạo với Three.js và React Three Fiber." />
-    <meta name="keywords" content="portfolio, full stack developer, react, nodejs, threejs, 3d web, frontend, backend, javascript, typescript" />
-    <meta name="author" content="Huân" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://huan-portfolio.vercel.app/" />
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Huân Portfolio - Full Stack Developer & 3D Web Specialist" />
-    <meta property="og:description" content="Portfolio của Huân - Full Stack Developer chuyên về React, Node.js, và 3D web experiences. Khám phá các dự án sáng tạo với Three.js và React Three Fiber." />
-    <meta property="og:url" content="https://huan-portfolio.vercel.app/" />
-    <meta property="og:site_name" content="Huân Portfolio" />
-    <meta property="og:image" content="https://huan-portfolio.vercel.app/og-image.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Huân Portfolio - Full Stack Developer" />
-    <meta property="og:locale" content="vi_VN" />
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Huân Portfolio - Full Stack Developer & 3D Web Specialist" />
-    <meta name="twitter:description" content="Portfolio của Huân - Full Stack Developer chuyên về React, Node.js, và 3D web experiences." />
-    <meta name="twitter:image" content="https://huan-portfolio.vercel.app/og-image.jpg" />
-    <meta name="twitter:image:alt" content="Huân Portfolio - Full Stack Developer" />
-    <meta name="twitter:creator" content="@huan_dev" />
-    
-    <!-- Additional SEO Tags -->
-    <meta name="theme-color" content="#000000" />
-    <meta name="msapplication-TileColor" content="#000000" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
-    
-    <!-- Theme Detection Script - Prevent FOUC -->
+    <title>Trương Quốc Huân - Fullstack Developer</title>
+    <meta name="description" content="Portfolio của Trương Quốc Huân - Fullstack Developer tại Ho Chi Minh City" />
+    <meta name="theme-color" content="#0f172a" />
     <script>
-      (function(){try{var t=localStorage.getItem('theme'),a=t==='light'||t==='dark'?t:'light',d=document.documentElement,m=document.querySelector('meta[name="theme-color"]');d.setAttribute('data-theme',a);d.classList.add(a);m&&(m.content=a==='dark'?'#0f172a':'#ffffff')}catch(e){document.documentElement.setAttribute('data-theme','light');document.documentElement.classList.add('light')}})();
+      const theme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.classList.add(theme);
     </script>
-    <script type="module" crossorigin src="/assets/js/index-Dcz5EtRH.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/js/vendor-Dr3LqIF9.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/react-vendor-Z_4RhRe6.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/utils-B30PI53b.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/hooks-Bg0oNxwz.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/theme-core-CFJN5RsB.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/motion-Bk-wstwu.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/theme-advanced-8-y3tNqu.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/theme-misc-BuaoJUQ8.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/theme-components-OduIQvfo.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/ui-D5DiGoh7.js">
-    <link rel="modulepreload" crossorigin href="/assets/js/sections-BxGVI77o.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-DjA_JYGh.css">
-    <!-- Phase 03: Mobile-First Enhancements with Container Queries -->
-    <link rel="stylesheet" crossorigin href="/assets/mobile-enhancements.css">
-    <!-- Phase 05: Accessibility Excellence - WCAG 2.1 AAA -->
-    <link rel="stylesheet" crossorigin href="/assets/accessibility-enhancements.css">
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
