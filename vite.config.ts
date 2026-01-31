@@ -17,5 +17,18 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    target: 'esnext',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split Three.js and R3F into separate chunks for better caching
+          'three': ['three'],
+          'r3f': ['@react-three/fiber', '@react-three/drei', 'zustand'],
+          'postprocessing': ['@react-three/postprocessing', 'postprocessing'],
+          // Split animation library
+          'animation': ['framer-motion'],
+        },
+      },
+    },
   },
 })
