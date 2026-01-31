@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense, Component, type ReactNode } from 'react'
+import { ACESFilmicToneMapping } from 'three'
 import { Scene } from './scene'
 import { LoadingScreen } from '../ui/loading-screen'
 
@@ -42,7 +43,12 @@ export function CanvasContainer() {
       <ThreeErrorBoundary>
         <Suspense fallback={<LoadingScreen />}>
           <Canvas
-            gl={{ antialias: true, alpha: false }}
+            gl={{
+              antialias: true,
+              alpha: false,
+              toneMapping: ACESFilmicToneMapping,
+              toneMappingExposure: 1.2,
+            }}
             dpr={[1, getDevicePixelRatio()]}
           >
             <Scene />

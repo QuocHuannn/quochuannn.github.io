@@ -1,10 +1,35 @@
+// Cyberpunk color palette
+const CYBERPUNK_BG = '#050510'
+const CYBERPUNK_RIM = '#4a00ff'
+const CYBERPUNK_FILL = '#00ffff'
+
 export function Lighting() {
   return (
     <>
-      <ambientLight intensity={0.2} />
-      <directionalLight position={[5, 10, 5]} intensity={0.5} />
-      <color attach="background" args={['#0a0a0f']} />
-      <fog attach="fog" args={['#0a0a0f', 10, 50]} />
+      {/* Minimal ambient - let emissives do the work */}
+      <ambientLight intensity={0.1} color="#1a1a2e" />
+
+      {/* Rim light from window direction */}
+      <directionalLight
+        position={[-5, 5, -5]}
+        intensity={0.3}
+        color={CYBERPUNK_RIM}
+      />
+
+      {/* Cyan fill light from above */}
+      <pointLight
+        position={[0, 3, 0]}
+        intensity={0.2}
+        color={CYBERPUNK_FILL}
+        distance={10}
+        decay={2}
+      />
+
+      {/* Dark cyberpunk background */}
+      <color attach="background" args={[CYBERPUNK_BG]} />
+
+      {/* Atmospheric fog for depth */}
+      <fog attach="fog" args={[CYBERPUNK_BG, 5, 30]} />
     </>
   )
 }
