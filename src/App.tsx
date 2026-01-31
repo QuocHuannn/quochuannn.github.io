@@ -2,6 +2,7 @@ import { useWebGLSupport } from '@/hooks/use-webgl-support'
 import { CanvasContainer } from '@/components/three/canvas-container'
 import { OverlayPortal } from '@/components/overlays/overlay-portal'
 import { HoverTooltip } from '@/components/overlays/hover-tooltip'
+import { WelcomeIntro } from '@/components/overlays/welcome-intro'
 import { StaticFallback } from '@/components/fallback/static-fallback'
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
       <CanvasContainer />
       <OverlayPortal />
       <HoverTooltip />
+      <WelcomeIntro />
     </div>
   )
 }
