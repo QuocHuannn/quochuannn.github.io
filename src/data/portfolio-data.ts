@@ -14,19 +14,24 @@ export const profile = {
 
 export const skills = [
   {
+    title: "3D & Creative",
+    color: "accent-cyan",
+    items: ["Blender", "Three.js", "WebGL", "React Three Fiber", "GSAP", "Shader"],
+  },
+  {
     title: "Frontend",
     color: "accent-blue",
-    items: ["React/Next.js", "TypeScript", "Tailwind CSS", "Vue.js", "Framer Motion"],
+    items: ["React", "TypeScript", "Tailwind", "Next.js", "Vue.js", "Framer Motion", "SCSS"],
   },
   {
     title: "Backend",
     color: "accent-green",
-    items: ["Node.js", "Python", "PostgreSQL", "MongoDB", "Express.js", "FastAPI"],
+    items: ["Node.js", "Python", "PostgreSQL", "NestJS", "Django", "GraphQL", "MySQL", "Express.js", "FastAPI", "MongoDB", "Redis", "Nginx", "SSL"],
   },
   {
-    title: "Tools & DevOps",
+    title: "Tools",
     color: "accent-purple",
-    items: ["Git/GitHub", "Docker", "AWS", "Figma", "Linux", "CI/CD"],
+    items: ["Git", "Docker", "Figma", "Linux", "AWS", "Cloudflare", "Firebase", "Supabase", "CI/CD", "Jira", "Vercel"],
   },
 ]
 
