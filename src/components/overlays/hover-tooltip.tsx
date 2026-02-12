@@ -1,34 +1,24 @@
 import { useInteractionState } from '@/hooks/use-interaction-state'
-import { skills } from '@/data/portfolio-data'
-
-// Map interaction targets to skill categories
-const TARGET_TO_CATEGORY: Record<string, string> = {
-  'skills-3d': '3D & Creative',
-  'skills-frontend': 'Frontend',
-  'skills-backend': 'Backend',
-  'skills-tools': 'Tools',
-}
 
 export function HoverTooltip() {
   const { hoveredTarget } = useInteractionState()
 
-  // Only show for hover-only targets (holograms)
-  if (!hoveredTarget.startsWith('skills-')) return null
+  if (hoveredTarget === 'none') return null
 
-  const category = TARGET_TO_CATEGORY[hoveredTarget]
-  if (!category) return null
+  const labels: Record<string, string> = {
+    about: 'About Me',
+    skills: 'Skills',
+    projects: 'Projects',
+    contact: 'Contact',
+  }
 
-  const skillData = skills.find(s => s.title === category)
-  if (!skillData) return null
+  const label = labels[hoveredTarget]
+  if (!label) return null
 
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
-      <div className="bg-gray-900/90 border border-cyan-500/30 rounded-lg px-4 py-2">
-        <span className="text-cyan-400 font-medium">{category}: </span>
-        <span className="text-gray-300">
-          {skillData.items.slice(0, 4).join(', ')}
-          {skillData.items.length > 4 && '...'}
-        </span>
+    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+      <div className="bg-[rgba(30,22,15,0.9)] border border-[rgba(255,170,68,0.2)] rounded-lg px-4 py-2">
+        <span className="text-amber-400 font-medium">{label}</span>
       </div>
     </div>
   )

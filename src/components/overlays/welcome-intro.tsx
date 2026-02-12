@@ -1,79 +1,92 @@
-import { useState, useEffect } from 'react'
-import { profile } from '@/data/portfolio-data'
+import { useState, useEffect, useCallback, useRef } from 'react'
+
+const BOOT_LINES = [
+  { text: '> initializing workspace...', delay: 0 },
+  { text: '> loading modules... [OK]', delay: 800 },
+  { text: '> establishing connection... [OK]', delay: 1600 },
+  { text: '', delay: 2200 },
+]
+
+const NAME_DELAY = 2400
+const TITLE_DELAY = 3000
+const CTA_DELAY = 3600
 
 export function WelcomeIntro() {
-  const [isVisible, setIsVisible] = useState(true)
-  const [isAnimatingOut, setIsAnimatingOut] = useState(false)
+  const [visible, setVisible] = useState(true)
+  const [animatingOut, setAnimatingOut] = useState(false)
+  const [visibleLines, setVisibleLines] = useState(0)
+  const [showName, setShowName] = useState(false)
+  const [showTitle, setShowTitle] = useState(false)
+  const [showCta, setShowCta] = useState(false)
+  const dismissedRef = useRef(false)
 
-  // Auto-hide after delay or on click
-  const handleDismiss = () => {
-    setIsAnimatingOut(true)
-    setTimeout(() => setIsVisible(false), 500)
-  }
-
-  // Auto-dismiss after 10 seconds
-  useEffect(() => {
-    const timer = setTimeout(handleDismiss, 10000)
-    return () => clearTimeout(timer)
+  const handleDismiss = useCallback(() => {
+    if (dismissedRef.current) return
+    dismissedRef.current = true
+    setAnimatingOut(true)
+    setTimeout(() => setVisible(false), 500)
   }, [])
 
-  if (!isVisible) return null
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = []
+
+    BOOT_LINES.forEach((line, i) => {
+      timers.push(setTimeout(() => setVisibleLines(i + 1), line.delay))
+    })
+
+    timers.push(setTimeout(() => setShowName(true), NAME_DELAY))
+    timers.push(setTimeout(() => setShowTitle(true), TITLE_DELAY))
+    timers.push(setTimeout(() => setShowCta(true), CTA_DELAY))
+    timers.push(setTimeout(handleDismiss, 12000))
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleDismiss()
+    }
+    window.addEventListener('keydown', handleEscape)
+
+    return () => {
+      timers.forEach(clearTimeout)
+      window.removeEventListener('keydown', handleEscape)
+    }
+  }, [handleDismiss])
+
+  if (!visible) return null
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-[#050510]/80 backdrop-blur-sm transition-opacity duration-500 ${
-        isAnimatingOut ? 'opacity-0' : 'opacity-100'
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-[#0a0806] transition-opacity duration-500 ${
+        animatingOut ? 'opacity-0' : 'opacity-100'
       }`}
       onClick={handleDismiss}
     >
-      <div
-        className={`max-w-md mx-4 text-center transform transition-all duration-500 ${
-          isAnimatingOut ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
-        }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Neon border effect */}
-        <div className="relative p-8 bg-gray-900/90 rounded-xl border border-cyan-500/30 shadow-[0_0_30px_rgba(0,255,255,0.15)]">
-          {/* Avatar/Logo */}
-          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,255,0.4)]">
-            <span className="text-3xl font-bold text-white">{profile.name.charAt(0)}</span>
-          </div>
-
-          {/* Name & Title */}
-          <h1 className="text-2xl font-bold text-white mb-1">{profile.name}</h1>
-          <p className="text-cyan-400 mb-6">{profile.title}</p>
-
-          {/* Instructions */}
-          <div className="space-y-3 text-gray-300 text-sm mb-6">
-            <div className="flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>Click các monitor để xem Skills</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-              <span>Hover hologram để xem thêm</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span>Click cốc cà phê để Contact</span>
-            </div>
-            <div className="flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-pink-400 animate-pulse" />
-              <span>Click avatar để say hi!</span>
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          <button
-            onClick={handleDismiss}
-            className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg text-white font-medium hover:from-cyan-400 hover:to-purple-500 transition-all shadow-[0_0_15px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)]"
-          >
-            Bắt đầu khám phá
-          </button>
-
-          {/* Hint */}
-          <p className="mt-4 text-gray-500 text-xs">Click anywhere to dismiss</p>
+      <div className="max-w-md mx-4 font-mono">
+        {/* Boot lines */}
+        <div className="space-y-1 mb-6">
+          {BOOT_LINES.slice(0, visibleLines).map((line, i) => (
+            <p key={i} className="text-amber-400/80 text-sm">{line.text}</p>
+          ))}
         </div>
+
+        {/* Name */}
+        {showName && (
+          <h1 className="text-3xl font-bold text-white mb-1 transition-opacity duration-300">
+            {'> '}Truong Quoc Huan
+          </h1>
+        )}
+
+        {/* Title */}
+        {showTitle && (
+          <p className="text-amber-400 text-lg mb-8 transition-opacity duration-300">
+            {'> '}Fullstack Developer
+          </p>
+        )}
+
+        {/* CTA */}
+        {showCta && (
+          <p className="text-gray-500 text-sm animate-pulse">
+            [Click anywhere to enter]
+          </p>
+        )}
       </div>
     </div>
   )
