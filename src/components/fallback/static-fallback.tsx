@@ -51,10 +51,10 @@ export function StaticFallback() {
                 <div className="flex flex-wrap gap-2">
                   {category.items.map((skill) => (
                     <span
-                      key={skill}
+                      key={skill.name}
                       className="px-2 py-1 bg-cyan-500/10 text-cyan-300 rounded text-sm"
                     >
-                      {skill}
+                      {skill.name}
                     </span>
                   ))}
                 </div>

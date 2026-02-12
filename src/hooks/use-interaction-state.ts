@@ -2,10 +2,9 @@ import { create } from 'zustand'
 
 export type InteractionTarget =
   | 'none'
-  | 'skills-3d'
-  | 'skills-frontend'
-  | 'skills-backend'
-  | 'skills-tools'
+  | 'about'
+  | 'skills'
+  | 'projects'
   | 'contact'
 
 interface InteractionState {
