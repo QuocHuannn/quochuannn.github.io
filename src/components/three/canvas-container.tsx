@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { Suspense, Component, type ReactNode } from 'react'
+import { Suspense, Component, type ReactNode, useEffect, useRef } from 'react'
 import { ACESFilmicToneMapping } from 'three'
 import { Scene } from './scene'
 import { LoadingScreen } from '../ui/loading-screen'
@@ -38,14 +38,42 @@ class ThreeErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundar
 }
 
 export function CanvasContainer() {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Handle WebGL context lost - attempt recovery
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const canvas = el.querySelector('canvas')
+    if (!canvas) return
+
+    const onLost = (e: Event) => {
+      e.preventDefault()
+      console.warn('WebGL context lost, attempting restore...')
+    }
+    const onRestored = () => {
+      console.log('WebGL context restored')
+      window.location.reload()
+    }
+
+    canvas.addEventListener('webglcontextlost', onLost)
+    canvas.addEventListener('webglcontextrestored', onRestored)
+    return () => {
+      canvas.removeEventListener('webglcontextlost', onLost)
+      canvas.removeEventListener('webglcontextrestored', onRestored)
+    }
+  }, [])
+
   return (
-    <div className="fixed inset-0 w-full h-full" role="img" aria-label="3D portfolio scene">
+    <div ref={containerRef} className="fixed inset-0 w-full h-full" role="img" aria-label="3D portfolio scene">
       <ThreeErrorBoundary>
         <Suspense fallback={<LoadingScreen />}>
           <Canvas
+            shadows
             gl={{
               antialias: true,
               alpha: false,
+              powerPreference: 'high-performance',
               toneMapping: ACESFilmicToneMapping,
               toneMappingExposure: 1.2,
             }}

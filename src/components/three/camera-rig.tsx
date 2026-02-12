@@ -1,30 +1,25 @@
-import { OrthographicCamera, CameraControls } from '@react-three/drei'
+import { PerspectiveCamera, OrbitControls } from '@react-three/drei'
 
-// Isometric camera constants
-const CAMERA_POSITION: [number, number, number] = [10, 10, 10]
-const CAMERA_ZOOM = 50
-
-// Orbit control limits (radians) - prevents extreme angles
-const MIN_POLAR = Math.PI / 4      // 45deg from top
-const MAX_POLAR = Math.PI / 2.5    // ~72deg from top
-const AZIMUTH_LIMIT = Math.PI / 4  // ±45deg horizontal
+const CAMERA_POSITION: [number, number, number] = [5, 5, 5]
+const CAMERA_TARGET: [number, number, number] = [0, 1, 0]
+const CAMERA_FOV = 40
 
 export function CameraRig() {
   return (
     <>
-      <OrthographicCamera
+      <PerspectiveCamera makeDefault position={CAMERA_POSITION} fov={CAMERA_FOV} />
+      <OrbitControls
         makeDefault
-        position={CAMERA_POSITION}
-        zoom={CAMERA_ZOOM}
-        near={0.1}
-        far={1000}
-      />
-      <CameraControls
-        minPolarAngle={MIN_POLAR}
-        maxPolarAngle={MAX_POLAR}
-        minAzimuthAngle={-AZIMUTH_LIMIT}
-        maxAzimuthAngle={AZIMUTH_LIMIT}
-        dollySpeed={0}
+        enablePan={false}
+        enableZoom={true}
+        minDistance={6}
+        maxDistance={12}
+        minPolarAngle={Math.PI / 4}
+        maxPolarAngle={Math.PI / 2.5}
+        minAzimuthAngle={-Math.PI / 6}
+        maxAzimuthAngle={Math.PI / 3}
+        target={CAMERA_TARGET}
+        autoRotate={false}
       />
     </>
   )
