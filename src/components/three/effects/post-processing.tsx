@@ -12,13 +12,13 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
 
   const multisampling = quality === 'high' ? 4 : quality === 'medium' ? 2 : 0
 
-  // Render quality-specific EffectComposer to avoid conditional children type issues
+  // Low quality: minimal effects
   if (quality === 'low') {
     return (
       <EffectComposer multisampling={0}>
         <Vignette
           offset={0.3}
-          darkness={0.4}
+          darkness={0.6}
           blendFunction={BlendFunction.NORMAL}
         />
         <Bloom
@@ -34,20 +34,20 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
   return (
     <EffectComposer multisampling={multisampling}>
       <N8AO
-        aoRadius={0.4}
-        intensity={quality === 'high' ? 1.5 : 1}
+        aoRadius={0.5}
+        intensity={quality === 'high' ? 2.0 : 1.5}
         quality="medium"
         distanceFalloff={0.8}
         halfRes
       />
       <Vignette
         offset={0.3}
-        darkness={0.5}
+        darkness={0.6}
         blendFunction={BlendFunction.NORMAL}
       />
       <Bloom
-        intensity={quality === 'high' ? 0.5 : 0.4}
-        luminanceThreshold={quality === 'high' ? 0.9 : 1.0}
+        intensity={quality === 'high' ? 0.6 : 0.5}
+        luminanceThreshold={quality === 'high' ? 0.8 : 0.9}
         luminanceSmoothing={0.9}
         mipmapBlur
       />

@@ -23,7 +23,7 @@ export function GamingChair() {
         <cylinderGeometry args={[0.025, 0.03, 0.35, 8]} />
       </mesh>
 
-      {/* 5-star base legs */}
+      {/* 5-star base legs with torus casters */}
       {legAngles.map((angle, i) => (
         <group key={i}>
           <mesh
@@ -33,8 +33,13 @@ export function GamingChair() {
           >
             <cylinderGeometry args={[0.012, 0.012, 0.3, 4]} />
           </mesh>
-          <mesh position={[Math.cos(angle) * 0.28, 0.025, Math.sin(angle) * 0.28]} material={baseMat}>
-            <sphereGeometry args={[0.025, 6, 6]} />
+          {/* Torus wheel casters */}
+          <mesh
+            position={[Math.cos(angle) * 0.28, 0.02, Math.sin(angle) * 0.28]}
+            rotation={[Math.PI / 2, 0, angle]}
+            material={baseMat}
+          >
+            <torusGeometry args={[0.015, 0.008, 6, 12]} />
           </mesh>
         </group>
       ))}
@@ -44,6 +49,12 @@ export function GamingChair() {
 
       {/* Backrest */}
       <RoundedBox args={[0.48, 0.6, 0.05]} radius={0.03} smoothness={2} position={[0, 0.82, -0.17]} rotation={[0.1, 0, 0]} material={fabricMat} castShadow />
+
+      {/* Headrest cushion */}
+      <RoundedBox args={[0.22, 0.1, 0.06]} radius={0.03} smoothness={2} position={[0, 1.16, -0.19]} rotation={[0.1, 0, 0]} material={fabricMat} />
+
+      {/* Lumbar support pillow */}
+      <RoundedBox args={[0.2, 0.1, 0.05]} radius={0.03} smoothness={2} position={[0, 0.65, -0.13]} rotation={[0.1, 0, 0]} material={accentMat} />
 
       {/* Accent stripes */}
       <mesh position={[-0.15, 0.82, -0.14]} rotation={[0.1, 0, 0]} material={accentMat}>

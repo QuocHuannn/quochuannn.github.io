@@ -16,6 +16,7 @@ export function Bed() {
   const mattressMat = useFabricMaterial('#e8e8e8', 0.9)
   const pillowMat = useFabricMaterial('#ffffff', 0.95)
   const blanketMat = useFabricMaterial('#c8a882', 0.9)
+  const accentPillowMat = useFabricMaterial('#7b9bb5', 0.9)
 
   useFrame(() => {
     if (glowRef.current) {
@@ -39,23 +40,31 @@ export function Bed() {
       {/* Bed frame */}
       <RoundedBox args={[1.2, 0.15, 0.8]} radius={0.02} smoothness={2} position={[0, 0.2, 0]} castShadow receiveShadow material={frameMat} />
 
-      {/* Headboard */}
-      <RoundedBox args={[0.05, 0.6, 0.82]} radius={0.02} smoothness={2} position={[-0.55, 0.5, 0]} castShadow material={frameMat} />
+      {/* Paneled headboard - 3 vertical panels with gaps */}
+      {[-0.22, 0, 0.22].map((z, i) => (
+        <RoundedBox key={i} args={[0.05, 0.6, 0.24]} radius={0.02} smoothness={2} position={[-0.55, 0.5, z]} castShadow material={frameMat} />
+      ))}
 
       {/* Frame legs */}
       {[[-0.55, -0.35], [-0.55, 0.35], [0.55, -0.35], [0.55, 0.35]].map(([x, z], i) => (
         <RoundedBox key={i} args={[0.08, 0.12, 0.08]} radius={0.02} smoothness={2} position={[x, 0.06, z]} material={frameMat} />
       ))}
 
-      {/* Mattress */}
-      <RoundedBox args={[1.1, 0.12, 0.76]} radius={0.04} smoothness={2} position={[0.02, 0.34, 0]} material={mattressMat} />
+      {/* Thicker mattress */}
+      <RoundedBox args={[1.1, 0.15, 0.76]} radius={0.04} smoothness={2} position={[0.02, 0.355, 0]} material={mattressMat} />
 
       {/* Pillows */}
-      <RoundedBox args={[0.2, 0.08, 0.25]} radius={0.03} smoothness={2} position={[-0.38, 0.44, -0.15]} material={pillowMat} />
-      <RoundedBox args={[0.2, 0.08, 0.25]} radius={0.03} smoothness={2} position={[-0.38, 0.44, 0.15]} material={pillowMat} />
+      <RoundedBox args={[0.2, 0.08, 0.25]} radius={0.03} smoothness={2} position={[-0.38, 0.47, -0.15]} material={pillowMat} />
+      <RoundedBox args={[0.2, 0.08, 0.25]} radius={0.03} smoothness={2} position={[-0.38, 0.47, 0.15]} material={pillowMat} />
+
+      {/* Accent throw pillow */}
+      <RoundedBox args={[0.12, 0.06, 0.12]} radius={0.025} smoothness={2} position={[-0.22, 0.47, 0]} rotation={[0, 0.3, 0]} material={accentPillowMat} />
 
       {/* Blanket */}
-      <RoundedBox args={[0.7, 0.05, 0.78]} radius={0.02} smoothness={2} position={[0.2, 0.42, 0]} material={blanketMat} />
+      <RoundedBox args={[0.7, 0.05, 0.78]} radius={0.02} smoothness={2} position={[0.2, 0.455, 0]} material={blanketMat} />
+
+      {/* Blanket folded edge */}
+      <RoundedBox args={[0.08, 0.03, 0.78]} radius={0.01} smoothness={2} position={[-0.12, 0.47, 0]} rotation={[0, 0, -0.15]} material={blanketMat} />
     </group>
   )
 }

@@ -36,15 +36,50 @@ export function RoomShell() {
         varying vec2 vUv2;
         float hash(vec2 p) {
           return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+        }
+        float noise2d(vec2 p) {
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          f = f * f * (3.0 - 2.0 * f);
+          float a = hash(i);
+          float b = hash(i + vec2(1.0, 0.0));
+          float c = hash(i + vec2(0.0, 1.0));
+          float d = hash(i + vec2(1.0, 1.0));
+          return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
         }`
       )
       shader.fragmentShader = shader.fragmentShader.replace(
         '#include <color_fragment>',
         `#include <color_fragment>
-        float plankId = floor(vUv2.y * 8.0);
-        float grain = hash(vec2(plankId, vUv2.x * 20.0)) * 0.08;
-        float grout = smoothstep(0.0, 0.04, fract(vUv2.y * 8.0));
-        diffuseColor.rgb *= (0.85 + grain) * grout;`
+        // 5 wider planks
+        float plankId = floor(vUv2.y * 5.0);
+        float plankFract = fract(vUv2.y * 5.0);
+
+        // Per-plank color variation
+        float plankHash = hash(vec2(plankId, 0.0));
+        vec3 plankTint = vec3(
+          (plankHash - 0.5) * 0.08,
+          (hash(vec2(plankId, 1.0)) - 0.5) * 0.05,
+          (hash(vec2(plankId, 2.0)) - 0.5) * 0.04
+        );
+
+        // Per-plank grain offset
+        float grainOffset = plankHash * 6.28;
+        float grainX = vUv2.x * 25.0 + grainOffset;
+        float warp = noise2d(vec2(vUv2.x * 3.0, plankId)) * 3.0;
+        float grain = sin(grainX + warp) * 0.5 + 0.5;
+        grain = smoothstep(0.3, 0.7, grain) * 0.1;
+
+        // Fine detail
+        float fine = noise2d(vUv2 * vec2(60.0, 8.0)) * 0.05;
+
+        // Clean narrow gap lines
+        float gap = 1.0 - (1.0 - smoothstep(0.0, 0.015, plankFract))
+                        - (1.0 - smoothstep(0.985, 1.0, plankFract));
+        float gapDarken = mix(0.4, 1.0, gap);
+
+        diffuseColor.rgb += plankTint;
+        diffuseColor.rgb *= (0.9 + grain + fine) * gapDarken;`
       )
     }
     return mat
@@ -71,15 +106,34 @@ export function RoomShell() {
         '#include <common>',
         `#include <common>
         varying vec2 vUv2;
-        float hash(vec2 p) {
+        float whash(vec2 p) {
           return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+        }
+        float wnoise(vec2 p) {
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          f = f * f * (3.0 - 2.0 * f);
+          float a = whash(i);
+          float b = whash(i + vec2(1.0, 0.0));
+          float c = whash(i + vec2(0.0, 1.0));
+          float d = whash(i + vec2(1.0, 1.0));
+          return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
         }`
       )
       shader.fragmentShader = shader.fragmentShader.replace(
         '#include <color_fragment>',
         `#include <color_fragment>
-        float noise = hash(vUv2 * 50.0) * 0.03;
-        diffuseColor.rgb *= (1.0 + noise);`
+        // Large splotches
+        float large = wnoise(vUv2 * 6.0) * 0.06;
+        // Medium texture
+        float med = wnoise(vUv2 * 20.0) * 0.04;
+        // Fine grain
+        float fine = whash(vUv2 * 80.0) * 0.03;
+
+        // Subtle gradient - slightly lighter near top
+        float gradient = vUv2.y * 0.04;
+
+        diffuseColor.rgb *= (1.0 + large + med + fine + gradient);`
       )
     }
     return mat

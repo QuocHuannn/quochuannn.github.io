@@ -54,14 +54,50 @@ export function Bookshelf() {
       <group ref={booksRef}>
         <BookRow y={0.04} count={7} offset={0} />
         <BookRow y={0.57} count={6} offset={3} />
-        <BookRow y={1.12} count={7} offset={6} />
+        <BookRow y={1.12} count={7} offset={6} flatBookIndex={4} />
         <BookRow y={1.67} count={5} offset={9} />
+      </group>
+
+      {/* Top shelf decorations */}
+      <ShelfDecorations />
+    </group>
+  )
+}
+
+function ShelfDecorations() {
+  return (
+    <group position={[0, 2.2, 0.02]}>
+      {/* Mini succulent: pot + spheres */}
+      <group position={[-0.15, 0, 0]}>
+        <mesh position={[0, 0.025, 0]}>
+          <cylinderGeometry args={[0.025, 0.02, 0.05, 6]} />
+          <meshStandardMaterial color="#8B5E3C" roughness={0.8} />
+        </mesh>
+        {[0, 1.2, 2.4, 3.6, 5].map((a, i) => (
+          <mesh key={i} position={[Math.cos(a) * 0.015, 0.06, Math.sin(a) * 0.015]}>
+            <sphereGeometry args={[0.012, 5, 5]} />
+            <meshStandardMaterial color="#5a9a50" roughness={0.9} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* Mini photo frame */}
+      <group position={[0.15, 0, 0]}>
+        <RoundedBox args={[0.08, 0.06, 0.01]} radius={0.003} smoothness={2} position={[0, 0.035, 0]}>
+          <meshStandardMaterial color="#3a2a1a" roughness={0.6} />
+        </RoundedBox>
+        <mesh position={[0, 0.035, 0.006]}>
+          <planeGeometry args={[0.06, 0.04]} />
+          <meshStandardMaterial color="#aaccdd" roughness={0.9} />
+        </mesh>
       </group>
     </group>
   )
 }
 
-function BookRow({ y, count, offset }: { y: number; count: number; offset: number }) {
+function BookRow({ y, count, offset, flatBookIndex }: {
+  y: number; count: number; offset: number; flatBookIndex?: number
+}) {
   const books = useMemo(() => {
     const result = []
     let x = -0.3
@@ -75,29 +111,40 @@ function BookRow({ y, count, offset }: { y: number; count: number; offset: numbe
       const height = 0.3 + rand(i + 50) * 0.2
       const lean = i === count - 2 ? 0.12 : (rand(i + 100) > 0.85 ? rand(i + 200) * 0.08 : 0)
       const color = BOOK_COLORS[(i + offset) % BOOK_COLORS.length]
-      result.push({ x: x + width / 2, width, height, lean, color })
+      const flat = flatBookIndex !== undefined && i === flatBookIndex
+      result.push({ x: x + width / 2, width, height, lean, color, flat })
       x += width + 0.008
     }
     return result
-  }, [count, offset])
+  }, [count, offset, flatBookIndex])
 
   return (
     <group position={[0, y, 0.02]}>
       {books.map((book, i) => (
-        <mesh
-          key={i}
-          position={[book.x, book.height / 2, 0]}
-          rotation={[0, 0, book.lean]}
-          userData={{ isBook: true }}
-        >
-          <boxGeometry args={[book.width, book.height, 0.2]} />
-          <meshStandardMaterial
-            color={book.color}
-            emissive={book.color}
-            emissiveIntensity={0}
-            roughness={0.7}
-          />
-        </mesh>
+        book.flat ? (
+          <RoundedBox
+            key={i}
+            args={[book.width + 0.02, 0.04, 0.18]}
+            radius={0.005}
+            smoothness={2}
+            position={[book.x, 0.02, 0]}
+            userData={{ isBook: true }}
+          >
+            <meshStandardMaterial color={book.color} emissive={book.color} emissiveIntensity={0} roughness={0.7} />
+          </RoundedBox>
+        ) : (
+          <RoundedBox
+            key={i}
+            args={[book.width, book.height, 0.2]}
+            radius={0.004}
+            smoothness={2}
+            position={[book.x, book.height / 2, 0]}
+            rotation={[0, 0, book.lean]}
+            userData={{ isBook: true }}
+          >
+            <meshStandardMaterial color={book.color} emissive={book.color} emissiveIntensity={0} roughness={0.7} />
+          </RoundedBox>
+        )
       ))}
     </group>
   )

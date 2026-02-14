@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useDeviceCapability } from '@/hooks/use-device-capability'
 
-const WARM_BG = '#0a0806'
+const DARK_BG = '#080604'
 
 export function Lighting() {
   const { quality } = useDeviceCapability()
@@ -11,10 +11,15 @@ export function Lighting() {
 
   const shadowMapSize = quality === 'high' ? 1024 : quality === 'medium' ? 512 : 512
 
-  // Subtle lamp flicker animation
+  // Subtle lamp flicker animation with more variation
   useFrame(({ clock }) => {
     if (lampLightRef.current) {
-      const flicker = Math.sin(clock.elapsedTime * 10) * 0.1 + 0.9
+      const t = clock.elapsedTime
+      const flicker =
+        Math.sin(t * 10) * 0.1 +
+        Math.sin(t * 23) * 0.05 +
+        Math.sin(t * 3.7) * 0.08 +
+        0.85
       lampLightRef.current.intensity = 0.8 * flicker
     }
   })
@@ -22,12 +27,12 @@ export function Lighting() {
   return (
     <>
       {/* Warm ambient fill */}
-      <ambientLight intensity={0.3} color="#ffd7a1" />
+      <ambientLight intensity={0.3} color="#ffe4c4" />
 
-      {/* Main directional light - shadow caster (motivated by window) */}
+      {/* Main directional light - dramatic angle from window */}
       <directionalLight
-        position={[4, 6, 3]}
-        intensity={1.5}
+        position={[3, 5, 2]}
+        intensity={1.8}
         color="#ffd7a1"
         castShadow
         shadow-mapSize-width={shadowMapSize}
@@ -51,12 +56,21 @@ export function Lighting() {
         decay={2}
       />
 
-      {/* Cool accent from window side */}
+      {/* Blue moonlight from window direction */}
       <pointLight
-        position={[-2, 2, -1.5]}
-        intensity={0.5}
-        color="#87ceeb"
-        distance={5}
+        position={[-0.5, 2.5, -2.2]}
+        intensity={0.3}
+        color="#6688cc"
+        distance={6}
+        decay={2}
+      />
+
+      {/* Monitor glow - simulates screen bounce light */}
+      <pointLight
+        position={[1, 1.2, -1.2]}
+        intensity={0.15}
+        color="#4466aa"
+        distance={2}
         decay={2}
       />
 
@@ -72,11 +86,11 @@ export function Lighting() {
         decay={2}
       />
 
-      {/* Dark warm background */}
-      <color attach="background" args={[WARM_BG]} />
+      {/* Dark warm background for more contrast */}
+      <color attach="background" args={[DARK_BG]} />
 
       {/* Warm fog for depth */}
-      <fog attach="fog" args={['#1a1a2e', 8, 20]} />
+      <fog attach="fog" args={['#1a1510', 7, 18]} />
     </>
   )
 }

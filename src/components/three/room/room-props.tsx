@@ -6,6 +6,7 @@ import { useFabricMaterial } from '@/hooks/materials/use-fabric-material'
 const POT_COLOR = '#8B5E3C'
 const FOLIAGE_COLOR = '#4a8844'
 const FIGURINE_COLOR = '#cc8855'
+const RUG_BORDER_COLOR = '#6b5a40'
 
 export function RoomProps() {
   const potMat = useMemo(
@@ -19,9 +20,9 @@ export function RoomProps() {
 
   useEffect(() => () => { potMat.dispose(); foliageMat.dispose() }, [potMat, foliageMat])
   const rugMat = useFabricMaterial('#8b7355', 0.95)
+  const rugBorderMat = useFabricMaterial(RUG_BORDER_COLOR, 0.95)
   const figurineRef = useRef<THREE.Group>(null)
 
-  // Subtle figurine sway
   useFrame(({ clock }) => {
     if (figurineRef.current) {
       figurineRef.current.rotation.z = Math.sin(clock.elapsedTime * 0.3) * 0.02
@@ -48,9 +49,13 @@ export function RoomProps() {
         </mesh>
       </group>
 
-      {/* Rug on floor */}
+      {/* Rug border (slightly larger, darker edge) */}
+      <mesh position={[0, 0.004, 0.3]} rotation={[-Math.PI / 2, 0, 0.1]} material={rugBorderMat}>
+        <planeGeometry args={[1.9, 1.3]} />
+      </mesh>
+      {/* Rug inner */}
       <mesh position={[0, 0.005, 0.3]} rotation={[-Math.PI / 2, 0, 0.1]} material={rugMat}>
-        <planeGeometry args={[1.8, 1.2]} />
+        <planeGeometry args={[1.7, 1.1]} />
       </mesh>
     </group>
   )
@@ -65,7 +70,6 @@ function Plant({ position, potMat, foliageMat, scale, swayOffset }: {
 }) {
   const foliageRef = useRef<THREE.Group>(null)
 
-  // Gentle plant sway
   useFrame(({ clock }) => {
     if (foliageRef.current) {
       foliageRef.current.rotation.z = Math.sin(clock.elapsedTime * 0.5 + swayOffset) * 0.04
@@ -73,18 +77,36 @@ function Plant({ position, potMat, foliageMat, scale, swayOffset }: {
     }
   })
 
+  // Leaf angles arranged in a radial fan
+  const leafAngles = [0, 0.9, 1.8, 2.7, 3.6, 4.5, 5.4]
+
   return (
     <group position={position} scale={scale}>
+      {/* Pot body */}
       <mesh position={[0, 0.08, 0]} material={potMat} castShadow>
         <cylinderGeometry args={[0.08, 0.06, 0.16, 8]} />
       </mesh>
+      {/* Pot rim */}
+      <mesh position={[0, 0.165, 0]} material={potMat}>
+        <cylinderGeometry args={[0.09, 0.085, 0.02, 8]} />
+      </mesh>
+      {/* Multi-leaf foliage */}
       <group ref={foliageRef}>
-        <mesh position={[0, 0.25, 0]} material={foliageMat} castShadow>
-          <sphereGeometry args={[0.12, 8, 8]} />
-        </mesh>
-        <mesh position={[0.06, 0.3, 0.04]} material={foliageMat}>
-          <sphereGeometry args={[0.07, 6, 6]} />
-        </mesh>
+        {leafAngles.map((angle, i) => {
+          const tilt = 0.3 + (i % 3) * 0.15
+          const height = 0.22 + (i % 2) * 0.06
+          return (
+            <mesh
+              key={i}
+              position={[0, height, 0]}
+              rotation={[tilt, angle, 0]}
+              material={foliageMat}
+              castShadow
+            >
+              <sphereGeometry args={[0.06, 6, 4]} />
+            </mesh>
+          )
+        })}
       </group>
     </group>
   )

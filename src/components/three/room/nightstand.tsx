@@ -21,7 +21,6 @@ export function Nightstand() {
   const handleMat = useMetalMaterial('#888888', 0.4)
   const bulbMat = useEmissiveMaterial('#fff5e1', 2.0)
 
-  // Animated phone screen
   const timeTexture = useTimeDisplayCanvas(128, 64)
 
   const lampMat = useMemo(
@@ -65,9 +64,9 @@ export function Nightstand() {
         <cylinderGeometry args={[0.008, 0.008, 0.18, 6]} />
       </mesh>
 
-      {/* Lamp shade */}
+      {/* Tapered lamp shade (wider bottom, narrower top, open ends) */}
       <mesh position={[-0.1, 0.74, -0.05]} material={lampMat}>
-        <coneGeometry args={[0.08, 0.1, 8, 1, true]} />
+        <cylinderGeometry args={[0.04, 0.08, 0.1, 12, 1, true]} />
       </mesh>
 
       {/* Lamp bulb */}
@@ -77,6 +76,17 @@ export function Nightstand() {
 
       {/* Lamp light */}
       <pointLight position={[-0.1, 0.7, -0.05]} color="#ffaa44" intensity={0.5} distance={2.5} />
+
+      {/* Coaster on table surface */}
+      <mesh position={[0.15, 0.455, -0.08]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.035, 16]} />
+        <meshStandardMaterial color="#5a4a3a" roughness={0.9} />
+      </mesh>
+
+      {/* Small book laying flat */}
+      <RoundedBox args={[0.07, 0.015, 0.1]} radius={0.003} smoothness={2} position={[-0.02, 0.46, 0.08]}>
+        <meshStandardMaterial color="#cc4444" roughness={0.7} />
+      </RoundedBox>
 
       {/* Phone - clickable for contact */}
       <group
@@ -88,7 +98,6 @@ export function Nightstand() {
         <RoundedBox args={[0.06, 0.008, 0.12]} radius={0.003} smoothness={2}>
           <meshStandardMaterial color="#1a1a1a" roughness={0.3} />
         </RoundedBox>
-        {/* Phone screen with time display */}
         <mesh position={[0, 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[0.05, 0.1]} />
           <meshStandardMaterial
