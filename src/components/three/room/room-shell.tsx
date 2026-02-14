@@ -134,6 +134,10 @@ export function RoomShell() {
 
   return (
     <group name="room-shell">
+      {/* Night sky + stars behind window */}
+      <WindowSky />
+      <WindowStarfield />
+
       {/* Floor with wood planks */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow material={floorMaterial}>
         <planeGeometry args={[ROOM_WIDTH, ROOM_DEPTH]} />
@@ -227,5 +231,43 @@ function Curtain({ position }: { position: [number, number, number] }) {
         roughness={0.9}
       />
     </mesh>
+  )
+}
+
+function WindowSky() {
+  return (
+    <mesh position={[0, 1.5, -2.5]}>
+      <planeGeometry args={[3, 3]} />
+      <meshBasicMaterial color="#0a1628" />
+    </mesh>
+  )
+}
+
+function WindowStarfield() {
+  const starCount = 60
+  const positions = useMemo(() => {
+    const pos = new Float32Array(starCount * 3)
+    for (let i = 0; i < starCount; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 4
+      pos[i * 3 + 1] = 0.5 + Math.random() * 3
+      pos[i * 3 + 2] = -3 - Math.random() * 5
+    }
+    return new THREE.Float32BufferAttribute(pos, 3)
+  }, [])
+
+  return (
+    <points>
+      <bufferGeometry>
+        <primitive attach="attributes-position" object={positions} />
+      </bufferGeometry>
+      <pointsMaterial
+        color="#ffffff"
+        size={0.02}
+        transparent
+        opacity={0.7}
+        sizeAttenuation
+        depthWrite={false}
+      />
+    </points>
   )
 }

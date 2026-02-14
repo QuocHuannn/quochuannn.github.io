@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useDeviceCapability } from '@/hooks/use-device-capability'
 
-const DARK_BG = '#0d0a07'
+const DARK_BG = '#0a1628'
 
 export function Lighting() {
   const { quality } = useDeviceCapability()
@@ -27,12 +27,12 @@ export function Lighting() {
   return (
     <>
       {/* Warm ambient fill */}
-      <ambientLight intensity={0.45} color="#ffe4c4" />
+      <ambientLight intensity={0.45} color="#ffecd2" />
 
       {/* Main directional light - dramatic angle from window */}
       <directionalLight
         position={[3, 5, 2]}
-        intensity={1.8}
+        intensity={1.4}
         color="#ffd7a1"
         castShadow
         shadow-mapSize-width={shadowMapSize}
@@ -56,30 +56,12 @@ export function Lighting() {
         decay={2}
       />
 
-      {/* Blue moonlight from window direction */}
-      <pointLight
-        position={[-0.5, 2.5, -2.2]}
-        intensity={0.3}
-        color="#6688cc"
-        distance={6}
-        decay={2}
-      />
-
-      {/* Monitor glow - simulates screen bounce light */}
-      <pointLight
-        position={[1, 1.2, -1.2]}
-        intensity={0.15}
-        color="#4466aa"
-        distance={2}
-        decay={2}
-      />
-
       {/* Window SpotLight - motivated daylight */}
       <spotLight
         position={[-0.5, 2.5, -2.5]}
         target-position={[0, 1, 0]}
-        color="#ffffff"
-        intensity={1.2}
+        color="#ffeedd"
+        intensity={0.8}
         angle={Math.PI / 6}
         penumbra={0.5}
         distance={8}
@@ -89,17 +71,17 @@ export function Lighting() {
       {/* Warm fill light from camera direction */}
       <pointLight
         position={[4, 3, 4]}
-        intensity={0.4}
+        intensity={0.25}
         color="#ffd7a1"
         distance={10}
         decay={2}
       />
 
-      {/* Dark warm background for more contrast */}
+      {/* Deep navy background for contrast with warm room */}
       <color attach="background" args={[DARK_BG]} />
 
-      {/* Warm fog for depth */}
-      <fog attach="fog" args={['#1d1812', 8, 22]} />
+      {/* Depth fog matching background */}
+      <fog attach="fog" args={['#0a1225', 10, 25]} />
     </>
   )
 }

@@ -22,7 +22,7 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
           blendFunction={BlendFunction.NORMAL}
         />
         <Bloom
-          intensity={0.3}
+          intensity={0.2}
           luminanceThreshold={1.2}
           luminanceSmoothing={0.9}
           mipmapBlur
@@ -34,8 +34,8 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
   return (
     <EffectComposer multisampling={multisampling}>
       <N8AO
-        aoRadius={0.3}
-        intensity={quality === 'high' ? 1.2 : 0.8}
+        aoRadius={0.2}
+        intensity={quality === 'high' ? 0.8 : 0.5}
         quality="medium"
         distanceFalloff={0.8}
         halfRes
@@ -46,8 +46,8 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
         blendFunction={BlendFunction.NORMAL}
       />
       <Bloom
-        intensity={quality === 'high' ? 0.6 : 0.5}
-        luminanceThreshold={quality === 'high' ? 0.8 : 0.9}
+        intensity={quality === 'high' ? 0.4 : 0.3}
+        luminanceThreshold={quality === 'high' ? 1.0 : 1.1}
         luminanceSmoothing={0.9}
         mipmapBlur
       />
