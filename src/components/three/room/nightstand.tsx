@@ -66,7 +66,7 @@ export function Nightstand() {
 
       {/* Tapered lamp shade (wider bottom, narrower top, open ends) */}
       <mesh position={[-0.1, 0.74, -0.05]} material={lampMat}>
-        <cylinderGeometry args={[0.04, 0.08, 0.1, 12, 1, true]} />
+        <cylinderGeometry args={[0.04, 0.07, 0.09, 12, 1, true]} />
       </mesh>
 
       {/* Lamp bulb */}

@@ -77,8 +77,8 @@ function Plant({ position, potMat, foliageMat, scale, swayOffset }: {
     }
   })
 
-  // Leaf angles arranged in a radial fan
-  const leafAngles = [0, 0.9, 1.8, 2.7, 3.6, 4.5, 5.4]
+  // 4 larger leaves arranged radially
+  const leafAngles = [0, 1.57, 3.14, 4.71]
 
   return (
     <group position={position} scale={scale}>
@@ -90,23 +90,19 @@ function Plant({ position, potMat, foliageMat, scale, swayOffset }: {
       <mesh position={[0, 0.165, 0]} material={potMat}>
         <cylinderGeometry args={[0.09, 0.085, 0.02, 8]} />
       </mesh>
-      {/* Multi-leaf foliage */}
+      {/* Foliage - 4 larger leaves */}
       <group ref={foliageRef}>
-        {leafAngles.map((angle, i) => {
-          const tilt = 0.3 + (i % 3) * 0.15
-          const height = 0.22 + (i % 2) * 0.06
-          return (
-            <mesh
-              key={i}
-              position={[0, height, 0]}
-              rotation={[tilt, angle, 0]}
-              material={foliageMat}
-              castShadow
-            >
-              <sphereGeometry args={[0.06, 6, 4]} />
-            </mesh>
-          )
-        })}
+        {leafAngles.map((angle, i) => (
+          <mesh
+            key={i}
+            position={[0, 0.24 + (i % 2) * 0.05, 0]}
+            rotation={[0.35 + (i % 2) * 0.15, angle, 0]}
+            material={foliageMat}
+            castShadow
+          >
+            <sphereGeometry args={[0.08, 8, 6]} />
+          </mesh>
+        ))}
       </group>
     </group>
   )

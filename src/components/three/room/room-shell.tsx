@@ -15,7 +15,7 @@ const FRAME_COLOR = '#3d2817'
 export function RoomShell() {
   const floorMaterial = useMemo(() => {
     const mat = new THREE.MeshStandardMaterial({
-      color: '#8B6F47',
+      color: '#9B7F57',
       roughness: 0.7,
       metalness: 0,
     })
@@ -87,7 +87,7 @@ export function RoomShell() {
 
   const wallMaterial = useMemo(() => {
     const mat = new THREE.MeshStandardMaterial({
-      color: '#3a3028',
+      color: '#4a3d32',
       roughness: 0.85,
       side: THREE.DoubleSide,
     })
@@ -105,35 +105,15 @@ export function RoomShell() {
       shader.fragmentShader = shader.fragmentShader.replace(
         '#include <common>',
         `#include <common>
-        varying vec2 vUv2;
-        float whash(vec2 p) {
-          return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
-        }
-        float wnoise(vec2 p) {
-          vec2 i = floor(p);
-          vec2 f = fract(p);
-          f = f * f * (3.0 - 2.0 * f);
-          float a = whash(i);
-          float b = whash(i + vec2(1.0, 0.0));
-          float c = whash(i + vec2(0.0, 1.0));
-          float d = whash(i + vec2(1.0, 1.0));
-          return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-        }`
+        varying vec2 vUv2;`
       )
       shader.fragmentShader = shader.fragmentShader.replace(
         '#include <color_fragment>',
         `#include <color_fragment>
-        // Large splotches
-        float large = wnoise(vUv2 * 6.0) * 0.06;
-        // Medium texture
-        float med = wnoise(vUv2 * 20.0) * 0.04;
-        // Fine grain
-        float fine = whash(vUv2 * 80.0) * 0.03;
-
-        // Subtle gradient - slightly lighter near top
-        float gradient = vUv2.y * 0.04;
-
-        diffuseColor.rgb *= (1.0 + large + med + fine + gradient);`
+        // Subtle micro variation - no noise functions needed
+        float subtle = fract(sin(dot(floor(vUv2 * 200.0), vec2(12.9898, 78.233))) * 43758.5453) * 0.015;
+        float gradient = vUv2.y * 0.03;
+        diffuseColor.rgb *= (1.0 + subtle + gradient);`
       )
     }
     return mat

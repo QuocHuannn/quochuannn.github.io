@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useDeviceCapability } from '@/hooks/use-device-capability'
 
-const DARK_BG = '#080604'
+const DARK_BG = '#0d0a07'
 
 export function Lighting() {
   const { quality } = useDeviceCapability()
@@ -20,14 +20,14 @@ export function Lighting() {
         Math.sin(t * 23) * 0.05 +
         Math.sin(t * 3.7) * 0.08 +
         0.85
-      lampLightRef.current.intensity = 0.8 * flicker
+      lampLightRef.current.intensity = 1.0 * flicker
     }
   })
 
   return (
     <>
       {/* Warm ambient fill */}
-      <ambientLight intensity={0.3} color="#ffe4c4" />
+      <ambientLight intensity={0.45} color="#ffe4c4" />
 
       {/* Main directional light - dramatic angle from window */}
       <directionalLight
@@ -86,11 +86,20 @@ export function Lighting() {
         decay={2}
       />
 
+      {/* Warm fill light from camera direction */}
+      <pointLight
+        position={[4, 3, 4]}
+        intensity={0.4}
+        color="#ffd7a1"
+        distance={10}
+        decay={2}
+      />
+
       {/* Dark warm background for more contrast */}
       <color attach="background" args={[DARK_BG]} />
 
       {/* Warm fog for depth */}
-      <fog attach="fog" args={['#1a1510', 7, 18]} />
+      <fog attach="fog" args={['#1d1812', 8, 22]} />
     </>
   )
 }

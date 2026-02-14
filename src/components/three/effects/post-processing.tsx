@@ -18,7 +18,7 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
       <EffectComposer multisampling={0}>
         <Vignette
           offset={0.3}
-          darkness={0.6}
+          darkness={0.4}
           blendFunction={BlendFunction.NORMAL}
         />
         <Bloom
@@ -34,15 +34,15 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
   return (
     <EffectComposer multisampling={multisampling}>
       <N8AO
-        aoRadius={0.5}
-        intensity={quality === 'high' ? 2.0 : 1.5}
+        aoRadius={0.3}
+        intensity={quality === 'high' ? 1.2 : 0.8}
         quality="medium"
         distanceFalloff={0.8}
         halfRes
       />
       <Vignette
         offset={0.3}
-        darkness={0.6}
+        darkness={0.4}
         blendFunction={BlendFunction.NORMAL}
       />
       <Bloom
