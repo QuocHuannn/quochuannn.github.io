@@ -4,13 +4,15 @@ import * as THREE from 'three'
 import { RoundedBox } from '@react-three/drei'
 import { useInteractionState } from '@/hooks/use-interaction-state'
 import { useInteractiveHover } from '@/hooks/use-interactive-hover'
+import { playSound } from '@/hooks/use-audio-manager'
+import type { ThreeEvent } from '@react-three/fiber'
 import { useWoodMaterial } from '@/hooks/materials/use-wood-material'
 import { useFabricMaterial } from '@/hooks/materials/use-fabric-material'
 
 export function Bed() {
   const glowRef = useRef<THREE.PointLight>(null)
-  const setActiveTarget = useInteractionState((s) => s.setActiveTarget)
-  const { hovered, onPointerOver, onPointerOut } = useInteractiveHover()
+  const setCameraPreset = useInteractionState((s) => s.setCameraPreset)
+  const { hovered, onPointerOver, onPointerOut, onPointerDown, isClick } = useInteractiveHover()
 
   const frameMat = useWoodMaterial('#5a4530')
   const mattressMat = useFabricMaterial('#e8e8e8', 0.9)
@@ -31,7 +33,8 @@ export function Bed() {
       name="bed"
       position={[-1.8, 0, 0.8]}
       rotation={[0, Math.PI / 2, 0]}
-      onClick={() => setActiveTarget('about')}
+      onClick={(e: ThreeEvent<MouseEvent>) => { if (isClick(e)) { playSound('click'); setCameraPreset('bed') } }}
+      onPointerDown={onPointerDown}
       onPointerOver={onPointerOver}
       onPointerOut={onPointerOut}
     >

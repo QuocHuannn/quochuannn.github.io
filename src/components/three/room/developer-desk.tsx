@@ -4,6 +4,8 @@ import * as THREE from 'three'
 import { RoundedBox } from '@react-three/drei'
 import { useInteractionState } from '@/hooks/use-interaction-state'
 import { useInteractiveHover } from '@/hooks/use-interactive-hover'
+import { playSound } from '@/hooks/use-audio-manager'
+import type { ThreeEvent } from '@react-three/fiber'
 import { useWoodMaterial } from '@/hooks/materials/use-wood-material'
 import { useMetalMaterial } from '@/hooks/materials/use-metal-material'
 import { useCodeScrollCanvas } from '@/hooks/use-code-scroll-canvas'
@@ -14,8 +16,8 @@ const MUG_COLOR = '#cc6644'
 
 export function DeveloperDesk() {
   const screenRef = useRef<THREE.Group>(null)
-  const setActiveTarget = useInteractionState((s) => s.setActiveTarget)
-  const { hovered, onPointerOver, onPointerOut } = useInteractiveHover()
+  const setCameraPreset = useInteractionState((s) => s.setCameraPreset)
+  const { hovered, onPointerOver, onPointerOut, onPointerDown, isClick } = useInteractiveHover()
 
   const woodMat = useWoodMaterial('#5a4530')
   const monitorMetal = useMetalMaterial('#2a2a2a', 0.4)
@@ -25,7 +27,12 @@ export function DeveloperDesk() {
   const codeTexture = useCodeScrollCanvas(256, 128)
   const terminalTexture = useTerminalCanvas(256, 128)
 
-  const handleClick = () => setActiveTarget('projects')
+  const handleClick = (e: ThreeEvent<MouseEvent>) => {
+    if (isClick(e)) {
+      playSound('click')
+      setCameraPreset('desk')
+    }
+  }
 
   return (
     <group name="developer-desk" position={[1, 0, -1.4]}>
@@ -51,6 +58,7 @@ export function DeveloperDesk() {
       <group
         ref={screenRef}
         onClick={handleClick}
+        onPointerDown={onPointerDown}
         onPointerOver={onPointerOver}
         onPointerOut={onPointerOut}
       >

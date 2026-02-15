@@ -4,6 +4,8 @@ import * as THREE from 'three'
 import { RoundedBox } from '@react-three/drei'
 import { useInteractionState } from '@/hooks/use-interaction-state'
 import { useInteractiveHover } from '@/hooks/use-interactive-hover'
+import { playSound } from '@/hooks/use-audio-manager'
+import type { ThreeEvent } from '@react-three/fiber'
 import { useWoodMaterial } from '@/hooks/materials/use-wood-material'
 
 const BOOK_COLORS = [
@@ -14,8 +16,8 @@ const BOOK_COLORS = [
 
 export function Bookshelf() {
   const booksRef = useRef<THREE.Group>(null)
-  const setActiveTarget = useInteractionState((s) => s.setActiveTarget)
-  const { hovered, onPointerOver, onPointerOut } = useInteractiveHover()
+  const setCameraPreset = useInteractionState((s) => s.setCameraPreset)
+  const { hovered, onPointerOver, onPointerOut, onPointerDown, isClick } = useInteractiveHover()
   const shelfMat = useWoodMaterial('#6b5744')
 
   useFrame(() => {
@@ -33,7 +35,8 @@ export function Bookshelf() {
     <group
       name="bookshelf"
       position={[-2.5, 0, -0.5]}
-      onClick={() => setActiveTarget('skills')}
+      onClick={(e: ThreeEvent<MouseEvent>) => { if (isClick(e)) { playSound('click'); setCameraPreset('bookshelf') } }}
+      onPointerDown={onPointerDown}
       onPointerOver={onPointerOver}
       onPointerOut={onPointerOut}
     >

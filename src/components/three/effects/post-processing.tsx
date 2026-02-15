@@ -1,4 +1,4 @@
-import { EffectComposer, Bloom, N8AO, Vignette } from '@react-three/postprocessing'
+import { EffectComposer, Bloom, N8AO, Vignette, Outline } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 import type { QualityLevel } from '@/hooks/use-device-capability'
 
@@ -50,6 +50,14 @@ export function PostProcessing({ enabled = true, quality = 'high' }: PostProcess
         luminanceThreshold={quality === 'high' ? 1.0 : 1.1}
         luminanceSmoothing={0.9}
         mipmapBlur
+      />
+      <Outline
+        edgeStrength={6}
+        visibleEdgeColor={0xffffff}
+        hiddenEdgeColor={0x444444}
+        blur
+        xRay={false}
+        pulseSpeed={0}
       />
     </EffectComposer>
   )
