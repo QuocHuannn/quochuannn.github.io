@@ -1,32 +1,42 @@
 {
   "name": "quochuan-portfolio",
-  "private": true,
-  "version": "1.0.0",
-  "type": "module",
+  "version": "2.0.0",
+  "description": "Interactive 3D portfolio built with vanilla Three.js",
+  "homepage": "https://quochuannn.github.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QuocHuannn/quochuannn.github.io.git"
+  },
+  "author": "Truong Quoc Huan",
+  "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "dev": "webpack serve --config ./bundler/webpack.dev.js",
+    "build": "webpack --config ./bundler/webpack.prod.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
-    "@react-three/postprocessing": "^3.0.4",
-    "framer-motion": "^11.15.0",
-    "gsap": "^3.14.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "three": "^0.182.0",
-    "zustand": "^5.0.10"
+    "gsap": "^3.12.5",
+    "three": "^0.161.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@types/three": "^0.182.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "tailwindcss": "^4.0.0",
-    "typescript": "~5.7.2",
-    "vite": "^6.0.0"
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^5.2.6",
+    "file-loader": "^6.2.0",
+    "gh-pages": "^6.1.0",
+    "glslify-loader": "^2.0.0",
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.1.0",
+    "raw-loader": "^4.0.2",
+    "style-loader": "^3.0.0",
+    "webpack": "^5.42.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^4.15.0",
+    "webpack-merge": "^5.8.0"
   }
 }
